@@ -38,7 +38,7 @@
             placeholder="Любой" mode="tags" class="multiselect-blue" />
         </div>
 
-        
+
 
 
         <div class="min-w-64 mt-2 mr-2 inline-block">
@@ -72,7 +72,7 @@
 
 
 
-       
+
         <!-- disabled="false" -->
 
         <div class="min-w-64 mt-2 mr-2 inline-block">
@@ -141,11 +141,15 @@
       <div class="flex flex-col items-center pb-10">
         <div class="flex mt-4 md:mt-6">
 
-          <button v-if="cartStore.compare[main.id] == -1"
-            @click=" addToCart(main), syncCompare(), cartStore.cart[cartStore.compare[main.id]].amount++"
+          <button @click=" addToCart(main)"
             class="inline-flex items-center px-10 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Купить</button>
 
-          <div v-else class="inline-flex rounded-md shadow-sm" role="group">
+
+            <button @click=" deleteFromCart(main.id)"
+            class="inline-flex items-center px-10 py-2 text-sm font-medium text-center text-white bg-black rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Удалить</button>
+
+
+          <!-- <div v-else class="inline-flex rounded-md shadow-sm">
 
             <button v-if="cartStore.cart[cartStore.compare[main.id]].amount === 1"
               @click="cartStore.cart[cartStore.compare[main.id]].amount--, deleteCart(cartStore.compare[main.id])"
@@ -175,7 +179,7 @@
           </div>
 
           <button v-if="cartStore.simile[main.id] == -1" @click="addToFavourite(main), syncSimile()"
-            class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "><svg
+            class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100"><svg
               class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
               fill="none" viewBox="0 0 24 24">
               <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -190,7 +194,7 @@
               <path
                 d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z" />
             </svg>
-          </button>
+          </button> -->
         </div>
       </div>
     </div>
@@ -221,11 +225,12 @@
           </button>
         </li>
         <li v-for="page, index in totalPages">
-          <button  :class="{ 'bg-blue-50': color[index] }" @click="currentPage = page, ffColor()"
-            class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{ page }}</button>
+          <button :class="{ 'bg-blue-50': color[index] }" @click="currentPage = page, ffColor()"
+            class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 border border-gray-300 hover:bg-gray-100 hover:text-gray-700">{{
+            page }}</button>
         </li>
         <li>
-          <button  @click="ffRight(), ffColor()"
+          <button @click="ffRight(), ffColor()"
             class="flex items-center justify-center px-4 h-10 leading-tight text-gray-500 bg-white border border-gray-300 rounded-e-lg hover:bg-gray-100 hover:text-gray-700 ">
             <svg class="w-3 h-3 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none"
               viewBox="0 0 6 10">
@@ -262,13 +267,15 @@ ffPage()
 
 
 const color = ref([])
-function ffColor(){
+function ffColor() {
   color.value = []
-  for(let i=0; i < totalPages.value.length; i++){
-    if (totalPages.value[i] === currentPage.value){
-    color.value.push(true)}
-  else {
-    color.value.push(false)}
+  for (let i = 0; i < totalPages.value.length; i++) {
+    if (totalPages.value[i] === currentPage.value) {
+      color.value.push(true)
+    }
+    else {
+      color.value.push(false)
+    }
   }
   console.log(color)
 }
@@ -276,8 +283,8 @@ function ffColor(){
 ffColor()
 
 
-function ffRight(){
-  if(currentPage.value === totalPages.value[totalPages.value.length - 1]){
+function ffRight() {
+  if (currentPage.value === totalPages.value[totalPages.value.length - 1]) {
   }
   else {
     currentPage.value = currentPage.value + 1
@@ -285,8 +292,8 @@ function ffRight(){
 }
 
 
-function ffLeft(){
-  if(currentPage.value === 1){
+function ffLeft() {
+  if (currentPage.value === 1) {
   }
   else {
     currentPage.value = currentPage.value - 1
@@ -444,12 +451,28 @@ syncSimile()
 function deleteCart(index) {
   cartStore.deleteCart(index)
 }
-function addToCart(value) {
-  cartStore.addToCart(value);
+async function addToCart(value) {
+  // value.quantity = 1
+  //   cartStore.addToCart(value);
+  //   syncCompare();
+  //   cartStore.cart[cartStore.compare[value.id]].amount++
+  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
+
 }
+
+
+async function deleteFromCart(value) {
+  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value}`, { method: 'DELETE' })
+  update()
+}
+
+
+
 function addToFavourite(value) {
   cartStore.addToFavourite(value);
 }
+
+
 function syncSumm() {
   cartStore.syncSumm();
 }

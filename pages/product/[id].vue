@@ -336,14 +336,7 @@ const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const { data: product } = await useFetch(`${runtimeConfig.public.apiBase}/products/${route.params.id}`)
 
-// const additionalData = ref()
-// additionalData.value = [{
-//     1: product.value.image[1],
-//     2: product.value.image[2],
-//     3: product.value.image[3],
-//     4: product.value.image[4],
-//     5: product.value.image[5],
-// }]
+
 
 const selectImg = ref([])
 

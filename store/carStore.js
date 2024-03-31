@@ -12,9 +12,9 @@ export const useCart = defineStore("cartStore", {
     getSimile: (state) => state.simile,
   },
   actions: {
-    addToCart(value) {
-      this.cart.push(value);
-    },
+    // addToCart(value) {
+    //   this.cart.push(value);
+    // },
 
     syncSumm() {
       this.summ = 0
@@ -27,10 +27,13 @@ export const useCart = defineStore("cartStore", {
 
     syncCompare() {
       this.compare = []
-      let idArray = []
-      for (let i = 0; i < this.cart.length; i++) {
-        idArray.push(this.cart[i].id)
-      } //получили массив с id товаров в корзине
+      // let idArray = []
+      // for (let i = 0; i < this.cart.length; i++) {
+      //   idArray.push(this.cart[i].id)
+      // } //получили массив с id товаров в корзине
+      const idArray = this.cart.map((item) => item.id)
+      console.log(idArray)
+      // this.cart.forEach(item)
       let a = 0
       for (let b = 0; b < 22; b++) {
         this.compare.push(idArray.indexOf(a))
@@ -49,6 +52,7 @@ export const useCart = defineStore("cartStore", {
         this.simile.push(idArray.indexOf(a))
         a++
       }
+      console.log(this.simile)
     },
 
     deleteCart(index) {
