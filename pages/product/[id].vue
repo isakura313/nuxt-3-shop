@@ -2,10 +2,10 @@
     <div class="max-w-7xl mx-auto">
 
         <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row ">
-            
 
 
-            
+
+
             <div class="relative w-full max-w-4xl">
 
 
@@ -14,9 +14,9 @@
                     }}
                 </h5>
 
-                
+
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96  ">
-                    
+
                     <div class=" duration-700 ease-in-out ">
                         <img v-bind:src="additionalData[count]"
                             class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 "
@@ -31,7 +31,7 @@
                     <div class="grid grid-cols-5 gap-4">
                         <div v-for="image, index in additionalData">
                             <img :class="{ 'bg-blue-50': selectImg[index] }" class="h-auto max-w-full rounded-lg"
-                                v-bind:src="image" @click="count=index" alt="">
+                                v-bind:src="image" @click="count = index" alt="">
                         </div>
                     </div>
                 </div>
@@ -115,7 +115,7 @@
 
 
                             <span class="text-base font-normal leading-tight text-gray-900  ms-3">Год выпуска: {{
-                            product.year }}</span>
+                    product.year }}</span>
                         </li>
 
                         <li class="flex">
@@ -126,7 +126,7 @@
                                     d="m10.051 8.102-3.778.322-1.994 1.994a.94.94 0 0 0 .533 1.6l2.698.316m8.39 1.617-.322 3.78-1.994 1.994a.94.94 0 0 1-1.595-.533l-.4-2.652m8.166-11.174a1.366 1.366 0 0 0-1.12-1.12c-1.616-.279-4.906-.623-6.38.853-1.671 1.672-5.211 8.015-6.31 10.023a.932.932 0 0 0 .162 1.111l.828.835.833.832a.932.932 0 0 0 1.111.163c2.008-1.102 8.35-4.642 10.021-6.312 1.475-1.478 1.133-4.77.855-6.385Zm-2.961 3.722a1.88 1.88 0 1 1-3.76 0 1.88 1.88 0 0 1 3.76 0Z" />
                             </svg>
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Мощность: {{
-                            product.power }} л/с</span>
+                    product.power }} л/с</span>
                         </li>
 
 
@@ -160,7 +160,7 @@
                             </svg>
 
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Трансмиссия: {{
-                            product.transmission }}</span>
+                    product.transmission }}</span>
                         </li>
 
 
@@ -184,7 +184,7 @@
 
 
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Тип двигателя: {{
-                            product.engine }}</span>
+                    product.engine }}</span>
                         </li>
 
 
@@ -217,7 +217,7 @@
 
 
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Цена: {{
-                            product.price.toLocaleString() }} ₽</span>
+                    product.price.toLocaleString() }} ₽</span>
                         </li>
 
 
@@ -262,7 +262,7 @@
                                 <button type="button"
                                     class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 ">
                                     {{
-                            cartStore.cart[cartStore.compare[product.id]].amount }}
+                    cartStore.cart[cartStore.compare[product.id]].amount }}
                                 </button>
 
                                 <button
@@ -361,15 +361,17 @@ let count = ref(1)
 
 
 
-function ffSelectImg(){
+function ffSelectImg() {
     selectImg.value = [0]
-  for(let i=0; i < 5; i++){
-    if (Number(Object.getOwnPropertyNames(additionalData.value)[i]) === Number(count.value)){
-        selectImg.value.push(true)}
-  else {
-    selectImg.value.push(false)}
-  }
-console.log(selectImg.value)
+    for (let i = 0; i < 5; i++) {
+        if (Number(Object.getOwnPropertyNames(additionalData.value)[i]) === Number(count.value)) {
+            selectImg.value.push(true)
+        }
+        else {
+            selectImg.value.push(false)
+        }
+    }
+    console.log(selectImg.value)
 }
 
 ffSelectImg()
