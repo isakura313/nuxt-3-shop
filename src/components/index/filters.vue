@@ -3,14 +3,14 @@
 <a class="block relative p-6 bg-gray-50 border border-gray-200 rounded-lg shadow mx-5">
 
 
-<div class="min-w-64 mt-2 mr-2 inline-block">
+<div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Марка:</label>
   <Multiselect v-model="brands" :options="optionsBrands" placeholder="Любая" mode="single"
     class="multiselect-blue" />
 </div>
 
 
-<div class="min-w-64 mt-2 mr-2 inline-block">
+<div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Модель:</label>
 
 
@@ -25,7 +25,7 @@
 
 
 
-<div class="min-w-64 mt-2 mr-2 inline-block">
+<div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Кузов:</label>
   <Multiselect v-model="kuzov" :options="['Кроссвэн', 'Хэтчбек', 'Универсал', 'Седан', 'Кроссовер']"
     placeholder="Любой" mode="tags" class="multiselect-blue" />
@@ -34,14 +34,14 @@
 
 
 
-<div class="min-w-64 mt-2 mr-2 inline-block">
+<div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Трансмиссия:</label>
   <Multiselect v-model="kpp" :options="['АКПП', 'МКПП', 'Вариатор']" placeholder="Любая" mode="tags"
     class="multiselect-blue" />
 </div>
 
 
-<form class="max-w-64 mt-2 mr-2 inline-block">
+<form class="w-72 mt-2 mr-2 inline-block">
   <label class="block mb-2 text-sm font-medium text-gray-900">Мощность двигателя:</label>
   <div>
     <Slider :tooltips="false" v-model="sliderPower" @input="ffSliderPower()" class="slider-blue  ml-5 mr-5"
@@ -68,7 +68,7 @@
 
 <!-- disabled="false" -->
 
-<div class="min-w-64 mt-2 mr-2 inline-block">
+<div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Двигатель:</label>
   <Multiselect v-model="engine" :options="['Бензин', 'Дизель', 'Электро']" placeholder="Любой" mode="tags"
     class="multiselect-blue" />
@@ -77,7 +77,7 @@
 
 
 
-<form class="max-w-64 inline-block mr-2">
+<form class="w-72 inline-block mr-2">
   <label class="block mb-2 text-sm font-medium text-gray-900">Цена:</label>
 
   <div>
@@ -101,7 +101,7 @@
 
 
 
-<div class="min-w-64 mt-2 mr-2 inline-block">
+<div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Цвет:</label>
   <Multiselect v-model="colorsVM"
     :options="['Черный', 'Красный', 'Серый', 'Белый', 'Коричневый', 'Синий', 'Серебристый']" placeholder="Любой"
