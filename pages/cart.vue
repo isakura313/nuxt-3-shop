@@ -30,17 +30,17 @@
                 </p>
               </div>
 
- 
 
-   
-                <a v-if="main.amount === 1"
-                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-s-lg">
-                  -
-            </a>
-                <button v-if="main.amount > 1" @click="minusCart(main)" type="button"
-                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100">
-                  -
-                </button>
+
+
+              <a v-if="main.amount === 1"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-s-lg">
+                -
+              </a>
+              <button v-if="main.amount > 1" @click="minusCart(main)" type="button"
+                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100">
+                -
+              </button>
 
 
               <a type="button"
@@ -77,12 +77,6 @@ import { useCart } from '../store/carStore'
 const runtimeConfig = useRuntimeConfig()
 const cartStore = useCart();
 
-function deleteCart(index) {
-  cartStore.deleteCart(index)
-}
-function syncSumm() {
-  cartStore.syncSumm();
-}
 watch(cartStore.cart, () => {
   syncSumm()
 })
@@ -140,7 +134,7 @@ async function plusCart(value) {
 
 async function minusCart(value) {
   const getData = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'GET' })
-  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'PATCH', body: { "amount": getData.amount -1 } })
+  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'PATCH', body: { "amount": getData.amount - 1 } })
   update()
 }
 

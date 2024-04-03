@@ -72,32 +72,8 @@
             </div>
 
 
-
-
-
-
-
             <div class="flex flex-col justify-between p-4 leading-normal">
-                <!-- <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 ">{{ product.brand }} {{ product.model
-                    }}
-                </h5>
-                <p class="mb-3 font-normal text-gray-700 ">Год: {{ product.year }}</p>
-                <p class="mb-3 font-normal text-gray-700 ">Мощность: {{ product.power }} л/с</p>
-                <p class="mb-3 font-normal text-gray-700 ">Тип кузова: {{ product.kuzov }}</p>
-                <p class="mb-3 font-normal text-gray-700 ">Трансмиссия: {{ product.transmission }}</p>
-                <p class="mb-3 font-normal text-gray-700 ">Тип двигателя: {{ product.engine }}</p>
-                <p class="mb-3 font-normal text-gray-700 ">Цвет: {{ product.color }}</p>
-                <p class="mb-3 font-normal text-gray-700 ">Цена: {{ product.price.toLocaleString() }} ₽</p> -->
-
-
-
-
-
-
-
-
-
-
+    
 
 
                 <div class="w-full max-w-sm p-8 px-16 bg-gray-50 border border-gray-200 rounded-lg shadow ">
@@ -230,7 +206,7 @@
 
 
 
-
+<!-- 
                     <div class="flex flex-col items-center">
                         <div class="flex mt-4 md:mt-6">
                             <a v-if="cartStore.compare[product.id] === -1"
@@ -293,7 +269,7 @@
                                 </svg>
                             </a>
                         </div>
-                    </div>
+                    </div> -->
 
 
 
