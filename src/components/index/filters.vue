@@ -207,7 +207,6 @@ function searchPush() { //строка поиска
   if (model.value != undefined || model.value != null) {
     search.value.push("&model=" + model.value)
   }
-  console.log(search.value.join(''))
 }
 
 

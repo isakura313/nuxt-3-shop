@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-xl font-bold leading-none text-gray-900 ">Сумма товаров:</h5>
         <a class="text-sm font-medium text-blue-600 hover:underline ">
-          {{ cartStore.summ.toLocaleString() }} ₽
+          <!-- {{ cartStore.summ.toLocaleString() }} ₽ -->
         </a>
       </div>
 
@@ -77,9 +77,7 @@ import { useCart } from '../store/carStore'
 const runtimeConfig = useRuntimeConfig()
 const cartStore = useCart();
 
-watch(cartStore.cart, () => {
-  syncSumm()
-})
+
 
 
 
@@ -123,6 +121,7 @@ update()
 async function deleteFromCart(value) {
   const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'DELETE' })
   update()
+  cartStore.addinitCount()
 }
 
 async function plusCart(value) {

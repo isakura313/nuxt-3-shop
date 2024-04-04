@@ -73,7 +73,7 @@
 
 
             <div class="flex flex-col justify-between p-4 leading-normal">
-    
+
 
 
                 <div class="w-full max-w-sm p-8 px-16 bg-gray-50 border border-gray-200 rounded-lg shadow ">
@@ -206,51 +206,45 @@
 
 
 
-<!-- 
+
                     <div class="flex flex-col items-center">
                         <div class="flex mt-4 md:mt-6">
-                            <a v-if="cartStore.compare[product.id] === -1"
-                                @click="addToCart(product), syncCompare(), cartStore.cart[cartStore.compare[product.id]].amount = 0, cartStore.cart[cartStore.compare[product.id]].amountSumm = product.price, cartStore.cart[cartStore.compare[product.id]].amount++"
-                                href="#"
+
+                            <NuxtLink to="/cart"><button v-if="findCart >= 0"
+                                    class="inline-flex items-center px-6 py-2.5 text-sm font-medium text-center text-gray-900 border border-gray rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300">
+                                    В корзине >
+                                </button></NuxtLink>
+
+
+                            <button v-if="findCart === -100"
+                                class="inline-flex items-center px-12 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"><svg
+                                    aria-hidden="true" role="status" class="inline w-3 h-3 me-3 text-white animate-spin"
+                                    viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="#E5E7EB" />
+                                    <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentColor" />
+                                </svg></button>
+
+
+
+
+                            <button v-if="findCart === -1" @click="findCart = -100, addToCart(product), searchCart()"
                                 class="inline-flex items-center px-10 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                 Купить
-                            </a>
-
-                            <div v-else class="inline-flex rounded-md shadow-sm" role="group">
-
-                                <button v-if="cartStore.cart[cartStore.compare[product.id]].amount === 1"
-                                    @click="cartStore.cart[cartStore.compare[product.id]].amount--, deleteCart(cartStore.compare[product.id])"
-                                    type="button"
-                                    class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 ">
-                                    -
-                                </button>
+                            </button>
 
 
 
-                                <button v-else
-                                    @click="cartStore.cart[cartStore.compare[product.id]].amountSumm = cartStore.cart[cartStore.compare[product.id]].amountSumm - product.price, cartStore.cart[cartStore.compare[product.id]].amount--"
-                                    type="button"
-                                    class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 ">
-                                    -
-                                </button>
 
 
-                                <button type="button"
-                                    class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 ">
-                                    {{
-                    cartStore.cart[cartStore.compare[product.id]].amount }}
-                                </button>
-
-                                <button
-                                    @click="cartStore.cart[cartStore.compare[product.id]].amountSumm = cartStore.cart[cartStore.compare[product.id]].amountSumm + product.price, cartStore.cart[cartStore.compare[product.id]].amount++"
-                                    type="button"
-                                    class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-2 focus:ring-blue-700 focus:text-blue-700 ">
-                                    +
-                                </button>
-                            </div>
 
 
-                            <a v-if="cartStore.simile[product.id] == -1" @click="addToFavourite(product), syncSimile()"
+
+                            <a v-if="findFavourite === -1"
+                                @click="findFavourite = -100, addToFavourite(product), searchFavourite()"
                                 class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "><svg
                                     class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -260,7 +254,26 @@
                                 </svg>
                             </a>
 
-                            <a v-else @click="deleteFavourite(cartStore.simile[product.id]), syncSimile()"
+
+
+
+
+                            <button v-if="findFavourite === -100"
+                                class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
+                                <svg aria-hidden="true"
+                                    class="inline w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
+                                    viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                        d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                                        fill="currentColor" />
+                                    <path
+                                        d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                                        fill="currentFill" />
+                                </svg>
+                            </button>
+
+                            <a v-if="findFavourite >= 0"
+                                @click="findFavourite = -100, deleteFromFavourite(product), searchFavourite()"
                                 class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "><svg
                                     class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                     width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -269,7 +282,7 @@
                                 </svg>
                             </a>
                         </div>
-                    </div> -->
+                    </div>
 
 
 
@@ -305,20 +318,81 @@
 
 
 <script setup>
+import axios from 'axios'
 import { useCart } from '../store/carStore'
 const cartStore = useCart();
 
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const { data: product } = await useFetch(`${runtimeConfig.public.apiBase}/products/${route.params.id}`)
+product.value.amount = 1
+
+
+async function addToCart(value) {
+    const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
+    cartStore.addinitCount()
+}
+async function addToFavourite(value) {
+    const { data } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: value })
+}
+
+async function deleteFromFavourite(value) {
+    const { data } = await $fetch(`${runtimeConfig.public.apiBase}/favourite/${value.id}`, { method: 'DELETE' })
+}
 
 
 
+const findFavourite = ref()
+function searchFavourite() {
+    let getFavourite = ref()
+    setTimeout(() => {
+        axios.get(`${runtimeConfig.public.apiBase}/favourite`).then((res) => {
+            getFavourite.value = res
+        })
+    }, 500);
+
+    watch(getFavourite, () => {
+        compareFavourite()
+    }) //после получения списка товаров compare1
+
+    function compareFavourite() {
+        const idArrayFavourite = getFavourite.value.data.map((item) => item.id)
+        findFavourite.value = idArrayFavourite.indexOf(product.value.id)
+    }
+}
+searchFavourite()
+
+
+
+
+
+const findCart = ref()
+function searchCart() {
+    let getData = ref()
+    setTimeout(() => {
+        axios.get(`${runtimeConfig.public.apiBase}/cart`).then((res) => {
+            getData.value = res
+        })
+    }, 500);
+
+    watch(getData, () => {
+        compareData()
+    }) //после получения списка товаров compare1
+
+
+    function compareData() {
+        const idArray = getData.value.data.map((item) => item.id)
+        findCart.value = idArray.indexOf(product.value.id)
+    }
+}
+searchCart()
+
+
+
+
+
+//img
 const selectImg = ref([])
-
-
-
-
 const additionalData = ref({
     1: product.value.image[1],
     2: product.value.image[2],
@@ -326,17 +400,7 @@ const additionalData = ref({
     4: product.value.image[4],
     5: product.value.image[5],
 })
-
-
-
-
-
-
 let count = ref(1)
-
-
-
-
 function ffSelectImg() {
     selectImg.value = [0]
     for (let i = 0; i < 5; i++) {
@@ -347,13 +411,8 @@ function ffSelectImg() {
             selectImg.value.push(false)
         }
     }
-    console.log(selectImg.value)
 }
-
 ffSelectImg()
-
-
-
 function ffleft() {
     count.value--
     if (count.value === 0)
@@ -364,32 +423,7 @@ function ffright() {
     if (count.value === 6)
         count.value = 5
 }
-
-watch(cartStore.cart, () => {
-    syncSumm(), syncCompare()
-})
 watch(count, () => {
     ffSelectImg()
 })
-function addToCart(value) {
-    cartStore.addToCart(value);
-}
-function syncCompare() {
-    cartStore.syncCompare();
-}
-function syncSumm() {
-    cartStore.syncSumm();
-}
-function deleteCart(index) {
-    cartStore.deleteCart(index)
-}
-function syncSimile() {
-    cartStore.syncSimile();
-}
-function deleteFavourite(index) {
-    cartStore.deleteFavourite(index)
-}
-function addToFavourite(value) {
-    cartStore.addToFavourite(value);
-}
 </script>

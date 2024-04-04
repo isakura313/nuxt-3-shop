@@ -2,7 +2,7 @@
   <main class="bg-white  max-w-7xl mx-auto">
 
     <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow inline-block m-5"
-      v-for="main, index in cartStore.favourite">
+      v-for="main, index in mainInfo">
 
       <h5 class="mb-1 text-xl font-medium text-gray-900 ml-4 pt-4">
         <NuxtLink :to="`/product/${main.id}`">
@@ -24,7 +24,7 @@
       <div class="flex flex-col items-center pb-10">
         <div class="flex mt-4 md:mt-6">
 
-          <a v-if="cartStore.compare[main.id] == -1"
+          <!-- <a v-if="cartStore.compare[main.id] == -1"
             @click=" addToCart(main), syncCompare(), cartStore.cart[cartStore.compare[main.id]].amount++"
             class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">В
             корзину</a>
@@ -74,7 +74,10 @@
               <path
                 d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z" />
             </svg>
-          </a>
+          </a> -->
+
+
+
         </div>
       </div>
     </div>
@@ -85,26 +88,36 @@
 <script setup>
 import { useCart } from '../store/carStore'
 const cartStore = useCart();
+const runtimeConfig = useRuntimeConfig()
 
-watch(cartStore.cart, () => {
-  syncSumm(), syncCompare()
-})
-function addToCart(value) {
-  cartStore.addToCart(value);
+
+const mainInfo = ref(0)
+async function update() {
+  const { data } = await useFetch(`${runtimeConfig.public.apiBase}/favourite`)
+  const mainData = data.value.map((item, index) => {
+    return {
+      id: data.value[index].id,
+      brand: data.value[index].brand,
+      model: data.value[index].model,
+      year: data.value[index].year,
+      power: data.value[index].power,
+      kuzov: data.value[index].kuzov,
+      transmission: data.value[index].transmission,
+      engine: data.value[index].engine,
+      color: data.value[index].color,
+      price: data.value[index].price,
+      image: {
+        1: data.value[index].image[1],
+        2: data.value[index].image[2],
+        3: data.value[index].image[3],
+        4: data.value[index].image[4],
+        5: data.value[index].image[5],
+      },
+      amount: 1, //количество штук в карточке
+    }
+  })
+  mainInfo.value = mainData
 }
-function addToFavourite(value) {
-  cartStore.addToFavourite(value);
-}
-function syncSumm() {
-  cartStore.syncSumm();
-}
-function syncCompare() {
-  cartStore.syncCompare();
-}
-function syncSimile() {
-  cartStore.syncSimile();
-}
-function deleteFavourite(index) {
-  cartStore.deleteFavourite(index)
-}
+update()
+
 </script>
