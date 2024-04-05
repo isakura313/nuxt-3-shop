@@ -15,4 +15,15 @@ export default defineNuxtConfig({
     '@element-plus/nuxt',
     '@pinia/nuxt', // needed
     '@pinia-plugin-persistedstate/nuxt',],
+
+
+
+
+
+  
+
+
+
+
 })
+

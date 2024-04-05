@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-xl font-bold leading-none text-gray-900 ">Сумма товаров:</h5>
         <a class="text-sm font-medium text-blue-600 hover:underline ">
-          <!-- {{ cartStore.summ.toLocaleString() }} ₽ -->
+          {{ cartSumm.toLocaleString() }} ₽
         </a>
       </div>
 
@@ -26,7 +26,7 @@
 
                 <p class="text-s text-gray-500 truncate d">
                   {{ main.power }}л.с. / {{ main.engine }} / {{
-            main.transmission }} / {{ main.kuzov }} / {{ main.color }}
+                    main.transmission }} / {{ main.kuzov }} / {{ main.color }}
                 </p>
               </div>
 
@@ -54,9 +54,8 @@
               </button>
 
               <div class="inline-flex text-xl items-center text-base font-semibold text-gray-900 mr-2">
-                {{ main.amountSumm.toLocaleString() }} ₽
+                {{ (main.price * main.amount).toLocaleString() }} ₽
               </div>
-
 
 
 
@@ -101,7 +100,6 @@ async function update() {
       engine: data.value[index].engine,
       color: data.value[index].color,
       price: data.value[index].price,
-      kprice: Math.round((data.value[index].price) / 84),
       image: {
         1: data.value[index].image[1],
         2: data.value[index].image[2],
@@ -110,7 +108,6 @@ async function update() {
         5: data.value[index].image[5],
       },
       amount: data.value[index].amount, //количество штук в карточке
-      amountSumm: data.value[index].price * data.value[index].amount //сумма товаров в карточке
     }
   })
   mainInfo.value = mainData
@@ -136,5 +133,21 @@ async function minusCart(value) {
   const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'PATCH', body: { "amount": getData.amount - 1 } })
   update()
 }
+
+
+
+
+
+const cartSumm = ref(0)
+function fCartSumm() {
+  cartSumm.value = 0
+  for (let i = 0; i < mainInfo.value.length; i++)
+    cartSumm.value = cartSumm.value + (mainInfo.value[i].price * mainInfo.value[i].amount)
+  console.log(cartSumm)
+}
+watch(mainInfo, () => {
+  fCartSumm()
+})
+
 
 </script>

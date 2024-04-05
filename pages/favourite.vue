@@ -23,11 +23,8 @@
       <div class="flex flex-col items-center pb-10">
         <div class="flex mt-4 md:mt-6">
 
-      
 
-
-
-          <button v-if="loader[index] == true"
+          <button v-if="simile[main.id - 1] == -100"
             class="inline-flex items-center px-12 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"><svg
               aria-hidden="true" role="status" class="inline w-3 h-3 me-3 text-white animate-spin" viewBox="0 0 100 101"
               fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -39,11 +36,10 @@
                 fill="currentColor" />
             </svg></button>
 
-          <button v-if="simile[main.id - 1] == -1 && loader[index] == false"
-            @click="switchLoader(index), addToCart(main), compare()"
+          <button v-if="simile[main.id - 1] == -1" @click="simile[main.id - 1] = -100, addToCart(main)"
             class="inline-flex items-center px-10 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Купить</button>
 
-          <NuxtLink to="/cart"><button v-if="simile[main.id - 1] >= 0 && loader[index] == false"
+          <NuxtLink to="/cart"><button v-if="simile[main.id - 1] >= 0"
               class="inline-flex items-center px-6 py-2.5 text-sm font-medium text-center text-gray-900 border border-gray rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300">
               В корзине >
             </button></NuxtLink>
@@ -55,7 +51,19 @@
 
 
 
-          <button v-if="loader[index] == true"
+
+          <button v-if="simileFavourite[main.id - 1] == -1"
+            @click="simileFavourite[main.id - 1] = 'loader', addToFavourite(main), compareFavourite()"
+            class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
+            <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
+              height="24" fill="none" viewBox="0 0 24 24">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z" />
+            </svg>
+          </button>
+
+
+          <button v-if="simileFavourite[main.id - 1] == 'loader'"
             class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
             <svg aria-hidden="true" class="inline w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
               viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -71,7 +79,9 @@
 
 
 
-          <button v-if="loader[index] == false" @click="deleteFromFavourite(main), switchLoader(index)"
+
+          <button v-if="simileFavourite[main.id - 1] >= 0"
+            @click="simileFavourite[main.id - 1] = 'loader', deleteFromFavourite(main)"
             class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "><svg
               class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
               fill="currentColor" viewBox="0 0 24 24">
@@ -79,6 +89,9 @@
                 d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z" />
             </svg>
           </button>
+
+
+
         </div>
       </div>
 
@@ -131,7 +144,6 @@ update()
 
 
 
-
 const simile = ref([])
 function compare() {
   let locate = ref()
@@ -162,45 +174,53 @@ compare()
 async function addToCart(value) {
   const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
   cartStore.addinitCount()
+  compare()
 }
 
 
 
+cartStore.addinitCount()
 
 
 
 
-
-
-
-
-
-
-
-
-const loader = ref([])
-function switchLoader(index) {
-  loader.value[index] = true
+const simileFavourite = ref([])
+function compareFavourite() {
+  let locateFavourite = ref()
   setTimeout(() => {
-    loader.value[index] = false
-  }, 700);
-}
-function updateLoader() {
-  loader.value = mainInfo.value.map((item) => false)
-}
-watch(mainInfo, () => {
-  updateLoader()
-})
-
-
-
-
-async function deleteFromFavourite(value, index) {
-  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/favourite/${value.id}`, { method: 'DELETE' })
-  setTimeout(() => {
-    update()
-
+    axios.get(`${runtimeConfig.public.apiBase}/favourite`).then((res) => {
+      locateFavourite.value = res
+    })
   }, 500);
+  //список товаров в избранном
+
+  watch(locateFavourite, () => {
+    compare1Favourite()
+  }) //после получения списка товаров compare1
+
+  function compare1Favourite() {
+    let idArrayFavourite = []
+    idArrayFavourite = locateFavourite.value.data.map((item) => item.id)
+
+    simileFavourite.value = []
+    for (let b = 1; b < 22; b++) {
+      simileFavourite.value.push(idArrayFavourite.indexOf(b))
+    }
+  }
+
+}
+compareFavourite()
+
+
+
+async function addToFavourite(value) {
+  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: value })
+}
+
+async function deleteFromFavourite(value) {
+  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/favourite/${value.id}`, { method: 'DELETE' })
+  compareFavourite()
+  update()
 }
 
 </script>
