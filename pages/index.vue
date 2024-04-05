@@ -24,7 +24,7 @@
       </div>
 
       <h5 class="mb-1 text-xl font-medium text-gray-900 ml-4">{{ main.price.toLocaleString() }} ₽</h5>
-      <span class="text-sm text-gray-500 ml-4"> {{ (main.price / 84).toLocaleString() }} ₽/мес</span>
+      <span class="text-sm text-gray-500 ml-4"> {{ (Math.round(main.price / 84)).toLocaleString() }} ₽/мес</span>
 
 
       <div class="flex flex-col items-center pb-10">
