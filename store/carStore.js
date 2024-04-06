@@ -4,10 +4,9 @@ import axios from 'axios'
 // const runtimeConfig = useRuntimeConfig()
 
 export const useCart = defineStore("cartStore", {
-  state: () => ({ initCount: 0, search: 2}),
+  state: () => ({ initCount: 0}),
   getters: {
     getinitCount: (state) => state.initCount,
-    getSearch: (state) => state.search,
   },
   actions: {
     addinitCount() {

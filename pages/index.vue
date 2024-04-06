@@ -154,6 +154,7 @@ const currentPage = ref(1)
 provide("currentPage", currentPage)
 watch(currentPage, () => {
   update()
+  console.log("update")
 })
 
 
