@@ -222,12 +222,26 @@ function compare() {
 }
 compare()
 
-async function addToCart(value) {
-  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
-  cartStore.addinitCount()
-  compare()
-}
+// async function addToCart(value) {
+//   const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
+//   cartStore.addinitCount()
+//   compare()
+// }
 
+
+
+async function addToCart(value) {
+  const getData = await $fetch(`${runtimeConfig.public.apiBase}/products/${value.id}`, { method: 'GET' })
+
+  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/products/${value.id}`, { method: 'PATCH', body: { "cart": [getData.cart + 1] } })
+  // update()
+
+
+
+  // const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
+  // const { data } = await $fetch(`${runtimeConfig.public.apiBase}/products/${value.id}`, { method: 'PATCH', body: { cart: "" } })
+
+}
 
 
 cartStore.addinitCount()
