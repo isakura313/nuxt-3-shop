@@ -232,7 +232,6 @@ compare()
 
 async function addToCart(value) {
   const getData = await $fetch(`${runtimeConfig.public.apiBase}/products/${value.id}`, { method: 'GET' })
-
   const { data } = await $fetch(`${runtimeConfig.public.apiBase}/products/${value.id}`, { method: 'PATCH', body: { "cart": [getData.cart + 1] } })
   // update()
 
