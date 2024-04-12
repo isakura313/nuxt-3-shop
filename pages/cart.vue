@@ -74,7 +74,7 @@
 <script setup>
 import { useData } from '../store/data'
 const runtimeConfig = useRuntimeConfig()
-const cartStore = useCart();
+const dataStore = useData();
 
 
 
@@ -87,7 +87,7 @@ const cartStore = useCart();
 
 const mainInfo = ref(0)
 async function update() {
-  const { data } = await useFetch(`${runtimeConfig.public.apiBase}/cart`)
+  const { data } = await useFetch(`${runtimeConfig.public.apiBase}/products`)
   const mainData = data.value.map((item, index) => {
     return {
       id: data.value[index].id,
