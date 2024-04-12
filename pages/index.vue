@@ -57,7 +57,9 @@
 
 
 
-          <button v-if="productStore.simile[main.id - 1] == 'loader'"
+
+
+          <button v-if="productStore.simile[main.id] == 'loader'"
             class="inline-flex items-center px-10 h-10 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"><svg
               aria-hidden="true" role="status" class="inline w-3 h-3 me-3 text-white animate-spin" viewBox="0 0 100 101"
               fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -72,14 +74,14 @@
 
 
 
-          <NuxtLink v-if="productStore.simile[main.id - 1] == true" to="/cart"><button
+          <NuxtLink v-if="productStore.simile[main.id] > 0" to="/cart"><button
               class="inline-flex items-center px-6 h-10 text-sm font-medium text-center text-gray-900 border border-gray rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300">
               В корзине >
             </button></NuxtLink>
 
 
-          <button v-if="productStore.simile[main.id - 1] == false"
-            @click="productStore.simile[main.id - 1] = 'loader', addToCart(main)"
+          <button v-if="productStore.simile[main.id] == 0"
+            @click="productStore.simile[main.id] = 'loader', addToCart(main)"
             class="inline-flex items-center px-10 h-10 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Купить</button>
 
 
@@ -88,9 +90,6 @@
 
 
           <!-- 
-
-
-
           <button v-if="simileFavourite[main.id - 1] == -1"
             @click="simileFavourite[main.id - 1] = -100, addToFavourite(main), compareFavourite()"
             class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
@@ -129,10 +128,13 @@
             </svg>
           </button> -->
 
+
+
+
+
         </div>
       </div>
     </div>
-    <button @click="findSame()">test</button>
     <Pagination />
   </main>
 </template>
@@ -210,40 +212,7 @@ function addToCart(value) {
 
 productStore.findSame()
 
-function findSame() {
-  productStore.findSame()
-  console.log(productStore.simile)
-}
 
-
-// const simile = ref([])
-// function findSame() {  //создание массива из 22 true/false нахождения товара в корзине
-//   if (dataStore.user == 1) { // если пользователь гость
-//     simile.value = []
-//     let edit = Object.keys(productStore.cart)
-//     let array = edit.map((item) => Number(item)) //строки в массиве в числа
-//     for (let i = 1; i < 23; i++) {
-//       simile.value.push(array.includes(i))
-//     }
-//     console.log(simile.value)
-//     console.log(productStore.cart)
-//   }
-//   if (dataStore.user > 1) { //если пользователь авторизован
-//     setTimeout(() => {
-//       axios.get(`${runtimeConfig.public.apiBase}/cart/${dataStore.user}`).then((res) => {
-//         simile.value = []
-//         let edit = Object.keys(res.data.carts) //ключи из объектов в один массив
-//         let array = edit.map((item) => Number(item)) //строки в массиве в числа
-//         for (let i = 1; i < 23; i++) {
-//           simile.value.push(array.includes(i))
-//         }
-//         console.log(simile.value)
-//       })
-
-//     }, 500);
-//   }
-// }
-// findSame()
 
 
 

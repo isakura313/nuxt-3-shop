@@ -11,70 +11,77 @@
 
       <div class="flow-root">
         <ul class="divide-y divide-gray-200 ">
-          <li class="py-3 sm:py-4" v-for="main, index in mainInfo">
-            <div class="flex items-center">
-              <div class="flex-shrink-0">
-                <img class="w-22 h-14 rounded-full" :src=main.image[1]>
+          <a v-for="main, index in mainInfo">
+            <li class="py-3 sm:py-4" v-if="productStore.simile[main.id] >= 1">
+              <div class="flex items-center">
+                <div class="flex-shrink-0">
+                  <img class="w-22 h-14 rounded-full" :src=main.image[1]>
+                </div>
+                <div class="flex-1 min-w-0 ms-4">
+                  <p class="text-xl font-medium text-gray-900 truncate ">
+                    {{ main.model }} {{ main.year }}
+                    <button @click="deleteFromCart(main.id)">⨉</button>
+                  </p>
+
+
+
+                  <p class="text-s text-gray-500 truncate d">
+                    {{ main.power }}л.с. / {{ main.engine }} / {{
+                      main.transmission }} / {{ main.kuzov }} / {{ main.color }}
+                  </p>
+                </div>
+
+
+
+
+                <button @click="minusCart(main.id)" type="button"
+                  class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100">
+                  -
+                </button>
+
+
+
+                <a type="button"
+                  class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200">
+                  {{ productStore.simile[main.id] }}
+                </a>
+
+
+
+
+
+
+
+                <button @click="plusCart(main.id)" type="button"
+                  class=" px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 ">
+                  +
+                </button>
+
+                <div class="inline-flex text-xl items-center text-base font-semibold text-gray-900 mr-2">
+                  {{ (main.price * productStore.simile[main.id]).toLocaleString() }} ₽
+                </div>
+
+
+
+
+
               </div>
-              <div class="flex-1 min-w-0 ms-4">
-                <p class="text-xl font-medium text-gray-900 truncate ">
-                  {{ main.model }} {{ main.year }}
-                  <button @click="deleteFromCart(main)">⨉</button>
-                </p>
+            </li>
+          </a>
 
-
-
-                <p class="text-s text-gray-500 truncate d">
-                  {{ main.power }}л.с. / {{ main.engine }} / {{
-                    main.transmission }} / {{ main.kuzov }} / {{ main.color }}
-                </p>
-              </div>
-
-
-
-
-              <a v-if="main.amount === 1"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-gray-100 border border-gray-200 rounded-s-lg">
-                -
-              </a>
-              <button v-if="main.amount > 1" @click="minusCart(main)" type="button"
-                class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100">
-                -
-              </button>
-
-
-              <a type="button"
-                class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200">
-                {{ main.amount }}
-              </a>
-
-              <button @click="plusCart(main)" type="button"
-                class=" px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 ">
-                +
-              </button>
-
-              <div class="inline-flex text-xl items-center text-base font-semibold text-gray-900 mr-2">
-                {{ (main.price * main.amount).toLocaleString() }} ₽
-              </div>
-
-
-
-
-
-            </div>
-          </li>
         </ul>
       </div>
     </div>
-
   </div>
 </template>
 
 
 <script setup>
 import { useData } from '../store/data'
+import { useProduct } from '../store/productStore'
 const runtimeConfig = useRuntimeConfig()
 const dataStore = useData();
+const productStore = useProduct();
 
 
 
@@ -115,26 +122,22 @@ async function update() {
 update()
 
 
-async function deleteFromCart(value) {
-  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'DELETE' })
-  update()
-  dataStore.addinitCount()
+function deleteFromCart(value) {
+  productStore.deleteFromCart(value);
+  productStore.findSame()
 }
+productStore.findSame()
 
-async function plusCart(value) {
-  const getData = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'GET' })
-  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'PATCH', body: { "amount": getData.amount + 1 } })
-  update()
-}
-
-
-async function minusCart(value) {
-  const getData = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'GET' })
-  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'PATCH', body: { "amount": getData.amount - 1 } })
-  update()
+function plusCart(value) {
+  productStore.plusCart(value);
+  productStore.findSame()
 }
 
 
+function minusCart(value) {
+  productStore.minusCart(value);
+  productStore.findSame()
+}
 
 
 
