@@ -72,7 +72,7 @@
 
 
 <script setup>
-import { useCart } from '../store/carStore'
+import { useData } from '../store/data'
 const runtimeConfig = useRuntimeConfig()
 const cartStore = useCart();
 
@@ -118,7 +118,7 @@ update()
 async function deleteFromCart(value) {
   const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart/${value.id}`, { method: 'DELETE' })
   update()
-  cartStore.addinitCount()
+  dataStore.addinitCount()
 }
 
 async function plusCart(value) {

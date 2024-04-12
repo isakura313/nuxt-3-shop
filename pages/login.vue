@@ -1,42 +1,126 @@
 <template>
 
+    <div v-if="dataStore.user == 1">
 
-    <form class="max-w-sm mx-auto">
-        <div class="mb-5">
-            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-            <input type="email" id="email"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="name@flowbite.com" required />
-        </div>
-        <div class="mb-5">
-            <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
-                password</label>
-            <input type="password" id="password"
-                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required />
-        </div>
-        <div class="flex items-start mb-5">
-            <div class="flex items-center h-5">
-                <input id="remember" type="checkbox" value=""
-                    class="w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-blue-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800"
-                    required />
+
+        <div v-if="RegOrLogin == 1" class="max-w-sm mx-auto">
+            <div class="mb-5">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Логин</label>
+                <input v-model="regLogin"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
-            <label for="remember" class="ms-2 text-sm font-medium text-gray-900 dark:text-gray-300">Remember me</label>
+            <div class="mb-5">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Пароль</label>
+                <input v-model="regPass"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+            <button @click="registration()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Зарегистрироваться</button>
+            <button @click="RegOrLogin = 2" class="ml-3 text-gray-700"> Уже есть аккаунт?</button>
         </div>
-        <button type="submit" @click="ftest()"
-            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
-    </form>
 
 
 
+
+        <div v-if="RegOrLogin == 2" class="max-w-sm mx-auto">
+            <div class="mb-5">
+                <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Логин</label>
+                <input v-model="enterLogin"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+            <div class="mb-5">
+                <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Пароль</label>
+                <input v-model="enterPass"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+            </div>
+            <button @click="enter()"
+                class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Войти</button>
+            <button @click="RegOrLogin = 1" class="ml-3 text-gray-700">У меня нет аккаунта</button>
+        </div>
+
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <div class="mx-auto w-24" v-if="dataStore.user > 1">
+        Ваш id = {{ dataStore.user }}
+        <button @click="dataStore.user = 1">Выйти</button>
+    </div>
 
 </template>
 
 <script setup>
+import { useData } from '../store/data'
+const dataStore = useData();
 const runtimeConfig = useRuntimeConfig()
+const RegOrLogin = ref(1) //выбор вход или регистрация
 
-async function ftest() {
-    const data  = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: "test" })
+
+
+const regLogin = ref() //введенный логин в регистрации
+const regPass = ref() //введенный пароль в регистрации
+async function registration() {
+    const getData = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'GET' })
+    let logins = [] //массив логинов
+    for (let i = 0; i < getData.length; i++) {
+        logins.push(getData[i].login) //пуш логинов
+    }
+    console.log()
+    if (logins.includes(regLogin.value) == false) { //если такого логина ещё нет допускается регистрация
+        const { data } = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'POST', body: { "id": getData.length + 1, "login": regLogin.value, "pass": regPass.value } })
+        const gettData = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'GET' })
+        dataStore.user = gettData.length + 1  //задает id пользователя в аккаунте
+        const { data2 } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: { "id": getData.length + 1, "carts": {} } }) //создает корзину для нового пользователя
+    }
+    else {
+        alert("Пользователь с таким логином уже существует")
+    }
 }
 
+
+
+
+const enterLogin = ref() //введенный логин во входе
+const enterPass = ref() //введенный пароль во входе
+async function enter() {
+    const getData = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'GET' })
+    let logins = [] //массив логинов
+    let passes = [] //массив паолей
+    for (let i = 0; i < getData.length; i++) {
+        logins.push(getData[i].login) //пуш логинов
+        passes.push(getData[i].pass) //пуш паролей
+    }
+
+    let indexLogin = logins.indexOf(enterLogin.value) //поиск введенного логина в массиве и возврат индекса, если найден
+    // let indexPass = passes.indexOf(enterPass.value) //поиск введенного пароля в массиве и возврат индекса, если найден
+
+    if (indexLogin > 0 && enterPass.value == passes[indexLogin]) { // if индекс логина больше 0, введенный пароль = паролю с индексом логина в списке паролей 
+        alert("успешно")
+        dataStore.user = indexLogin + 1
+        console.log(dataStore.user)
+    }
+    else { // if индекс логина и пароля не совпадает >> cartStore.user = 1, т.е. гость
+        alert("неверный логин или пароль")
+        dataStore.user = 1
+        console.log(dataStore.user)
+    }
+}
+// {"id": 1, "login": "guest", "pass": "guest"}
 </script>

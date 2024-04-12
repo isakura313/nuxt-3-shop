@@ -3,6 +3,7 @@
         <header>
             <nav class="bg-white border-gray-200 pt-4 px-4 max-w-7xl mx-auto">
                 <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-xl  pb-5">
+                    
                     <NuxtLink to="/">
                         <a @click="page = 1" class="flex items-center space-x-3  rtl:space-x-reverse">
                             <!-- <img src="../public/car.png" class="h-8" /> -->
@@ -109,7 +110,7 @@
                     
 
 
-                                <span v-if="cartStore.initCount == -100"
+                                <span v-if="dataStore.initCount == -100"
                                 class="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-800 border-2 border-white rounded-full -top-2 -end-2">
                                 <svg aria-hidden="true" class="inline w-3 h-3 text-gray-200 animate-spin fill-blue-600"
                                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -133,7 +134,7 @@
                                 <span v-else
                                     class="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-800 border-2 border-white rounded-full -top-2 -end-2">
                                     {{
-                                    cartStore.initCount }}</span>
+                                    dataStore.initCount }}</span>
 
 
 
@@ -175,7 +176,7 @@
 
 </NuxtLink>
 
-
+{{ dataStore.user }}
 
 
 
@@ -202,11 +203,11 @@
 </template>
 
 <script setup>
-import { useCart } from '../store/carStore'
+import { useData } from '../store/data'
 import { onMounted } from 'vue'
 import { initFlowbite } from 'flowbite'
 
-const cartStore = useCart();
+const dataStore = useData();
 
 const page = ref(0)
 

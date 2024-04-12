@@ -319,7 +319,7 @@
 
 <script setup>
 import axios from 'axios'
-import { useCart } from '../store/carStore'
+import { useCart } from '../store/data'
 const cartStore = useCart();
 
 const route = useRoute()

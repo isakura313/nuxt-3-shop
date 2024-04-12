@@ -58,7 +58,7 @@
 
 
 
-            <button v-if="simile[main.id - 1] == -100"
+          <!-- <button v-if="simile[main.id - 1] == -100"
             class="inline-flex items-center px-12 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"><svg
               aria-hidden="true" role="status" class="inline w-3 h-3 me-3 text-white animate-spin" viewBox="0 0 100 101"
               fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -68,11 +68,14 @@
               <path
                 d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
                 fill="currentColor" />
-            </svg></button>
+            </svg></button> -->
 
-          <button v-if="simile[main.id - 1] == -1" @click="simile[main.id - 1] = -100, addToCart(main)"
+
+
+          <!-- v-if="simile[main.id - 1] == -1" @click="simile[main.id - 1] = -100, addToCart(main)" -->
+          <button @click="addToCart(main)"
             class="inline-flex items-center px-10 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Купить</button>
-
+          <!-- 
           <NuxtLink to="/cart"><button v-if="simile[main.id - 1] >= 0"
               class="inline-flex items-center px-6 py-2.5 text-sm font-medium text-center text-gray-900 border border-gray rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300">
               В корзине >
@@ -122,10 +125,12 @@
               <path
                 d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z" />
             </svg>
-          </button>
+          </button> -->
+
         </div>
       </div>
     </div>
+    <button @click="findSame()">test</button>
     <Pagination />
   </main>
 </template>
@@ -133,13 +138,16 @@
 
 <script setup>
 import axios from 'axios'
-import { useCart } from '../store/carStore'
+import { useData } from '../store/data'
+import { useProduct } from '../store/productStore'
 import { FwbPagination } from 'flowbite-vue'
 import db from '../db.json'
 import Filters from "../src/components/index/filters.vue"
 import Pagination from "../src/components/index/pagination.vue"
 const runtimeConfig = useRuntimeConfig()
-const cartStore = useCart();
+const dataStore = useData();
+const productStore = useProduct();
+
 
 let search = ref([])
 provide("search", search)
@@ -195,57 +203,10 @@ async function update() {
 
 
 
-const simile = ref([])
-function compare() {
-  let locate = ref()
-  setTimeout(() => {
-    axios.get(`${runtimeConfig.public.apiBase}/cart`).then((res) => {
-      locate.value = res
-    })
-  }, 500);
-  //список товаров в корзине
-
-  watch(locate, () => {
-    compare1()
-  }) //после получения списка товаров compare1
-
-  function compare1() {
-    let idArray = []
-    idArray = locate.value.data.map((item) => item.id)
-
-    simile.value = []
-    for (let b = 1; b < 23; b++) {
-      simile.value.push(idArray.indexOf(b))
-    }
-  }
-
-}
-compare()
-
-// async function addToCart(value) {
-//   const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
-//   cartStore.addinitCount()
-//   compare()
-// }
-
-
-
-async function addToCart(value) {
-  const getData = await $fetch(`${runtimeConfig.public.apiBase}/products/${value.id}`, { method: 'GET' })
-  let editData = getData.cart
-  editData.push('1')
-  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/products/${value.id}`, { method: 'PATCH', body: { "cart": editData } })
-  // update()
-
-
-
-  // const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
-  // const { data } = await $fetch(`${runtimeConfig.public.apiBase}/products/${value.id}`, { method: 'PATCH', body: { cart: "" } })
-
+function addToCart(value) {
+  productStore.addToCart(value);
 }
 
-
-cartStore.addinitCount()
 
 
 
@@ -289,11 +250,81 @@ async function deleteFromFavourite(value) {
 }
 
 
-
-
-
-
 await update()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const simile = ref([])
+function findSame() {  //создание массива из 22 true/false нахождения товара в корзине
+  if (dataStore.user == 1) { // если пользователь гость
+    simile.value = []
+    let edit = Object.keys(productStore.cart)
+    let array = edit.map((item) => Number(item)) //строки в массиве в числа
+    for (let i = 1; i < 23; i++) {
+      simile.value.push(array.includes(i))
+    }
+    console.log(simile.value)
+    console.log(productStore.cart)
+  }
+  if (dataStore.user > 1) { //если пользователь авторизован
+    setTimeout(() => {
+      axios.get(`${runtimeConfig.public.apiBase}/cart/${dataStore.user}`).then((res) => {
+        simile.value = []
+        let edit = Object.keys(res.data.carts) //ключи из объектов в один массив
+        let array = edit.map((item) => Number(item)) //строки в массиве в числа
+        for (let i = 1; i < 23; i++) {
+          simile.value.push(array.includes(i))
+        }
+        console.log(simile.value)
+      })
+
+    }, 500);
+  }
+}
+
+
+
+
+
+function compare() {
+  let locate = ref()
+  setTimeout(() => {
+    axios.get(`${runtimeConfig.public.apiBase}/cart`).then((res) => {
+
+      locate.value = res
+    })
+  }, 500);
+  //список товаров в корзине
+
+  watch(locate, () => {
+    compare1()
+  }) //после получения списка товаров compare1
+
+  function compare1() {
+    let idArray = []
+    idArray = locate.value.data.map((item) => item.id)
+
+    simile.value = []
+    for (let b = 1; b < 23; b++) {
+      simile.value.push(idArray.indexOf(b))
+    }
+  }
+
+}
+compare()
 
 
 
