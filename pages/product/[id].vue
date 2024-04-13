@@ -319,8 +319,6 @@
 
 <script setup>
 import axios from 'axios'
-import { useCart } from '../store/data'
-const cartStore = useCart();
 
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
@@ -330,7 +328,6 @@ product.value.amount = 1
 
 async function addToCart(value) {
     const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
-    cartStore.addinitCount()
 }
 async function addToFavourite(value) {
     const { data } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: value })

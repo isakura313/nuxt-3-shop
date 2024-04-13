@@ -1,6 +1,6 @@
 <template>
 
-    <div v-if="dataStore.user == 1">
+    <div v-if="productStore.user == 1">
 
 
         <div v-if="RegOrLogin == 1" class="max-w-sm mx-auto">
@@ -59,16 +59,16 @@
 
 
 
-    <div class="mx-auto w-24" v-if="dataStore.user > 1">
-        Ваш id = {{ dataStore.user }}
-        <button @click="dataStore.user = 1">Выйти</button>
+    <div class="mx-auto w-24" v-if="productStore.user > 1">
+        Ваш id = {{ productStore.user }}
+        <button @click="productStore.user = 1">Выйти</button>
     </div>
 
 </template>
 
 <script setup>
-import { useData } from '../store/data'
-const dataStore = useData();
+import { useProduct } from '../store/productStore'
+const productStore = useProduct();
 const runtimeConfig = useRuntimeConfig()
 const RegOrLogin = ref(1) //выбор вход или регистрация
 
@@ -86,7 +86,7 @@ async function registration() {
     if (logins.includes(regLogin.value) == false) { //если такого логина ещё нет допускается регистрация
         const { data } = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'POST', body: { "id": getData.length + 1, "login": regLogin.value, "pass": regPass.value } })
         const gettData = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'GET' })
-        dataStore.user = gettData.length + 1  //задает id пользователя в аккаунте
+        productStore.user = gettData.length + 1  //задает id пользователя в аккаунте
         const { data2 } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: { "id": getData.length + 1, "carts": {} } }) //создает корзину для нового пользователя
     }
     else {
@@ -113,13 +113,11 @@ async function enter() {
 
     if (indexLogin > 0 && enterPass.value == passes[indexLogin]) { // if индекс логина больше 0, введенный пароль = паролю с индексом логина в списке паролей 
         alert("успешно")
-        dataStore.user = indexLogin + 1
-        console.log(dataStore.user)
+        productStore.user = indexLogin + 1
     }
-    else { // if индекс логина и пароля не совпадает >> cartStore.user = 1, т.е. гость
+    else { // if индекс логина и пароля не совпадает >> productStore.user = 1, т.е. гость
         alert("неверный логин или пароль")
-        dataStore.user = 1
-        console.log(dataStore.user)
+        productStore.user = 1
     }
 }
 // {"id": 1, "login": "guest", "pass": "guest"}

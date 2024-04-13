@@ -142,14 +142,12 @@
 
 <script setup>
 import axios from 'axios'
-import { useData } from '../store/data'
 import { useProduct } from '../store/productStore'
 import { FwbPagination } from 'flowbite-vue'
 import db from '../db.json'
 import Filters from "../src/components/index/filters.vue"
 import Pagination from "../src/components/index/pagination.vue"
 const runtimeConfig = useRuntimeConfig()
-const dataStore = useData();
 const productStore = useProduct();
 
 

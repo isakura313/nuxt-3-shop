@@ -104,8 +104,6 @@
 
 <script setup>
 import axios from 'axios'
-import { useCart } from '../store/data'
-const cartStore = useCart();
 const runtimeConfig = useRuntimeConfig()
 
 
@@ -171,15 +169,7 @@ function compare() {
 }
 compare()
 
-async function addToCart(value) {
-  const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
-  dataStore.addinitCount()
-  compare()
-}
 
-
-
-dataStore.addinitCount()
 
 
 

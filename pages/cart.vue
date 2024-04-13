@@ -77,10 +77,8 @@
 
 
 <script setup>
-import { useData } from '../store/data'
 import { useProduct } from '../store/productStore'
 const runtimeConfig = useRuntimeConfig()
-const dataStore = useData();
 const productStore = useProduct();
 
 
