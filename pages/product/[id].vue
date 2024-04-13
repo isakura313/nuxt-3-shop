@@ -91,7 +91,7 @@
 
 
                             <span class="text-base font-normal leading-tight text-gray-900  ms-3">Год выпуска: {{
-                    product.year }}</span>
+                                product.year }}</span>
                         </li>
 
                         <li class="flex">
@@ -102,7 +102,7 @@
                                     d="m10.051 8.102-3.778.322-1.994 1.994a.94.94 0 0 0 .533 1.6l2.698.316m8.39 1.617-.322 3.78-1.994 1.994a.94.94 0 0 1-1.595-.533l-.4-2.652m8.166-11.174a1.366 1.366 0 0 0-1.12-1.12c-1.616-.279-4.906-.623-6.38.853-1.671 1.672-5.211 8.015-6.31 10.023a.932.932 0 0 0 .162 1.111l.828.835.833.832a.932.932 0 0 0 1.111.163c2.008-1.102 8.35-4.642 10.021-6.312 1.475-1.478 1.133-4.77.855-6.385Zm-2.961 3.722a1.88 1.88 0 1 1-3.76 0 1.88 1.88 0 0 1 3.76 0Z" />
                             </svg>
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Мощность: {{
-                    product.power }} л/с</span>
+                                product.power }} л/с</span>
                         </li>
 
 
@@ -136,7 +136,7 @@
                             </svg>
 
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Трансмиссия: {{
-                    product.transmission }}</span>
+                                product.transmission }}</span>
                         </li>
 
 
@@ -160,7 +160,7 @@
 
 
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Тип двигателя: {{
-                    product.engine }}</span>
+                                product.engine }}</span>
                         </li>
 
 
@@ -193,30 +193,22 @@
 
 
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Цена: {{
-                    product.price.toLocaleString() }} ₽</span>
+                                product.price.toLocaleString() }} ₽</span>
                         </li>
-
-
-
-
-
                     </ul>
-
-
 
 
 
 
                     <div class="flex flex-col items-center">
                         <div class="flex mt-4 md:mt-6">
-
-                            <NuxtLink to="/cart"><button v-if="findCart >= 0"
+                            <NuxtLink v-if="productStore.simile[product.id] > 0" to="/cart"><button
                                     class="inline-flex items-center px-6 py-2.5 text-sm font-medium text-center text-gray-900 border border-gray rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                     В корзине >
                                 </button></NuxtLink>
 
 
-                            <button v-if="findCart === 'loader'"
+                            <button v-if="productStore.simile[product.id] == 'loader'"
                                 class="inline-flex items-center px-12 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"><svg
                                     aria-hidden="true" role="status" class="inline w-3 h-3 me-3 text-white animate-spin"
                                     viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -231,7 +223,8 @@
 
 
 
-                            <button v-if="findCart === -1" @click="findCart = 'loader', addToCart(product), searchCart()"
+                            <button v-if="productStore.simile[product.id] == 0"
+                                @click="productStore.simile[product.id] = 'loader', addToCart(product)"
                                 class="inline-flex items-center px-10 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                 Купить
                             </button>
@@ -240,7 +233,7 @@
 
 
 
-
+                            <!-- 
 
 
                             <a v-if="findFavourite === -1"
@@ -280,7 +273,7 @@
                                     <path
                                         d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z" />
                                 </svg>
-                            </a>
+                            </a> -->
                         </div>
                     </div>
 
@@ -319,70 +312,36 @@
 
 <script setup>
 import axios from 'axios'
+import { useProduct } from '../store/productStore'
+const productStore = useProduct();
 
 const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const { data: product } = await useFetch(`${runtimeConfig.public.apiBase}/products/${route.params.id}`)
-product.value.amount = 1
 
 
-async function addToCart(value) {
-    const { data } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: value })
-}
-async function addToFavourite(value) {
-    const { data } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: value })
-}
 
-async function deleteFromFavourite(value) {
-    const { data } = await $fetch(`${runtimeConfig.public.apiBase}/favourite/${value.id}`, { method: 'DELETE' })
+
+
+
+
+function addToCart(value) {
+    productStore.addToCart(value);
+    productStore.findSame()
 }
 
 
 
-const findFavourite = ref()
-function searchFavourite() {
-    let getFavourite = ref()
-    setTimeout(() => {
-        axios.get(`${runtimeConfig.public.apiBase}/favourite`).then((res) => {
-            getFavourite.value = res
-        })
-    }, 500);
-
-    watch(getFavourite, () => {
-        compareFavourite()
-    }) //после получения списка товаров compare1
-
-    function compareFavourite() {
-        const idArrayFavourite = getFavourite.value.data.map((item) => item.id)
-        findFavourite.value = idArrayFavourite.indexOf(product.value.id)
-    }
-}
-searchFavourite()
 
 
 
 
 
-const findCart = ref()
-function searchCart() {
-    let getData = ref()
-    setTimeout(() => {
-        axios.get(`${runtimeConfig.public.apiBase}/cart`).then((res) => {
-            getData.value = res
-        })
-    }, 500);
-
-    watch(getData, () => {
-        compareData()
-    }) //после получения списка товаров compare1
 
 
-    function compareData() {
-        const idArray = getData.value.data.map((item) => item.id)
-        findCart.value = idArray.indexOf(product.value.id)
-    }
-}
-searchCart()
+
+
+
 
 
 

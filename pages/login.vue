@@ -1,7 +1,5 @@
 <template>
-
     <div v-if="productStore.user == 1">
-
 
         <div v-if="RegOrLogin == 1" class="max-w-sm mx-auto">
             <div class="mb-5">
@@ -18,9 +16,6 @@
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Зарегистрироваться</button>
             <button @click="RegOrLogin = 2" class="ml-3 text-gray-700"> Уже есть аккаунт?</button>
         </div>
-
-
-
 
         <div v-if="RegOrLogin == 2" class="max-w-sm mx-auto">
             <div class="mb-5">
@@ -39,23 +34,6 @@
         </div>
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -93,8 +71,6 @@ async function registration() {
         alert("Пользователь с таким логином уже существует")
     }
 }
-
-
 
 
 const enterLogin = ref() //введенный логин во входе

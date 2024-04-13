@@ -112,7 +112,6 @@ async function update() {
         4: data.value[index].image[4],
         5: data.value[index].image[5],
       },
-      amount: data.value[index].amount, //количество штук в карточке
     }
   })
   mainInfo.value = mainData
