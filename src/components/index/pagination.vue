@@ -1,5 +1,4 @@
 <template>
-
   <nav aria-label="Page navigation example">
     <ul class="flex items-center -space-x-px h-10 text-base max-w-32 mx-auto ">
       <li>
@@ -33,18 +32,11 @@
 
 
 <script setup>
-
 defineProps({
   type: Object,
   required: true
 })
-import db from '../db.json'
 const runtimeConfig = useRuntimeConfig()
-
-
-
-
-//pagination
 
 let search = inject("search")
 const currentPage = inject("currentPage")

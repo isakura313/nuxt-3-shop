@@ -1,31 +1,19 @@
 <template>
     <div class="max-w-7xl mx-auto">
-
         <a class="flex flex-col items-center bg-white border border-gray-200 rounded-lg shadow md:flex-row ">
-
-
-
-
             <div class="relative w-full max-w-4xl">
-
-
 
                 <h5 class="ml-8 text-2xl font-medium text-gray-900">{{ product.brand }} {{ product.model
                     }}
                 </h5>
 
-
                 <div class="relative h-56 overflow-hidden rounded-lg md:h-96  ">
-
                     <div class=" duration-700 ease-in-out ">
                         <img v-bind:src="additionalData[count]"
                             class="absolute block max-w-full h-auto -translate-x-1/2 -translate-y-1/2 top-1/2 left-1/2 "
                             alt="">
                     </div>
-
                 </div>
-
-
 
                 <div class="grid gap-4 mx-20">
                     <div class="grid grid-cols-5 gap-4">
@@ -35,7 +23,6 @@
                         </div>
                     </div>
                 </div>
-
 
                 <button @click.prevent="ffleft"
                     class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none">
@@ -47,16 +34,8 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M5 1 1 5l4 4" />
                         </svg>
-
-
-
-
-
-                        <span class="sr-only">Previous</span>
                     </span>
                 </button>
-
-
 
                 <button @click.prevent="ffright"
                     class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none">
@@ -66,21 +45,14 @@
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="m1 9 4-4-4-4" />
                         </svg>
-                        <span class="sr-only">Next</span>
                     </span>
                 </button>
             </div>
 
-
             <div class="flex flex-col justify-between p-4 leading-normal">
-
-
-
                 <div class="w-full max-w-sm p-8 px-16 bg-gray-50 border border-gray-200 rounded-lg shadow ">
                     <h5 class="mb-4 text-xl font-medium text-gray-900 ">Характеристики</h5>
-
                     <ul role="list" class="space-y-5 my-7">
-
                         <li class="flex items-center">
                             <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -88,12 +60,9 @@
                                     stroke-width="2"
                                     d="M4 10h16m-8-3V4M7 7V4m10 3V4M5 20h14a1 1 0 0 0 1-1V7a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Zm3-7h.01v.01H8V13Zm4 0h.01v.01H12V13Zm4 0h.01v.01H16V13Zm-8 4h.01v.01H8V17Zm4 0h.01v.01H12V17Zm4 0h.01v.01H16V17Z" />
                             </svg>
-
-
                             <span class="text-base font-normal leading-tight text-gray-900  ms-3">Год выпуска: {{
                                 product.year }}</span>
                         </li>
-
                         <li class="flex">
                             <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -104,10 +73,6 @@
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Мощность: {{
                                 product.power }} л/с</span>
                         </li>
-
-
-
-
 
                         <li class="flex">
                             <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -122,11 +87,6 @@
                                 }}</span>
                         </li>
 
-
-
-
-
-
                         <li class="flex">
                             <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -139,15 +99,6 @@
                                 product.transmission }}</span>
                         </li>
 
-
-
-
-
-
-
-
-
-
                         <li class="flex">
                             <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
                                 width="24" height="24" fill="none" viewBox="0 0 24 24">
@@ -158,14 +109,9 @@
                                     stroke-width="2" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" />
                             </svg>
 
-
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Тип двигателя: {{
                                 product.engine }}</span>
                         </li>
-
-
-
-
 
                         <li class="flex">
                             <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -175,13 +121,9 @@
                                     d="M12 7h.01m3.486 1.513h.01m-6.978 0h.01M6.99 12H7m9 4h2.706a1.957 1.957 0 0 0 1.883-1.325A9 9 0 1 0 3.043 12.89 9.1 9.1 0 0 0 8.2 20.1a8.62 8.62 0 0 0 3.769.9 2.013 2.013 0 0 0 2.03-2v-.857A2.036 2.036 0 0 1 16 16Z" />
                             </svg>
 
-
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Цвет: {{ product.color
                                 }}</span>
                         </li>
-
-
-
 
                         <li class="flex">
                             <svg class="w-6 h-6 text-gray-800 " aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -190,15 +132,10 @@
                                     d="M8 7V6a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1h-1M3 18v-7a1 1 0 0 1 1-1h11a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1Zm8-3.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Z" />
                             </svg>
 
-
-
                             <span class="text-base font-normal leading-tight text-gray-900 ms-3">Цена: {{
                                 product.price.toLocaleString() }} ₽</span>
                         </li>
                     </ul>
-
-
-
 
                     <div class="flex flex-col items-center">
                         <div class="flex mt-4 md:mt-6">
@@ -206,7 +143,6 @@
                                     class="inline-flex items-center px-6 py-2.5 text-sm font-medium text-center text-gray-900 border border-gray rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                     В корзине >
                                 </button></NuxtLink>
-
 
                             <button v-if="productStore.simile[product.id] == 'loader'"
                                 class="inline-flex items-center px-12 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300"><svg
@@ -220,18 +156,11 @@
                                         fill="currentColor" />
                                 </svg></button>
 
-
-
-
                             <button v-if="productStore.simile[product.id] == 0"
                                 @click="productStore.simile[product.id] = 'loader', addToCart(product)"
                                 class="inline-flex items-center px-10 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">
                                 Купить
                             </button>
-
-
-
-
 
                             <!-- 
 
@@ -276,31 +205,7 @@
                             </a> -->
                         </div>
                     </div>
-
-
-
-
-
-
-
-
-
                 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             </div>
         </a>
     </div>
@@ -311,7 +216,6 @@
 
 
 <script setup>
-import axios from 'axios'
 import { useProduct } from '../store/productStore'
 const productStore = useProduct();
 
@@ -319,32 +223,10 @@ const route = useRoute()
 const runtimeConfig = useRuntimeConfig()
 const { data: product } = await useFetch(`${runtimeConfig.public.apiBase}/products/${route.params.id}`)
 
-
-
-
-
-
-
 function addToCart(value) {
     productStore.addToCart(value);
     productStore.findSame()
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 //img

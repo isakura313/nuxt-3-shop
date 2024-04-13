@@ -1,7 +1,5 @@
 <template>
-
 <a class="block relative p-6 bg-gray-50 border border-gray-200 rounded-lg shadow mx-5">
-
 
 <div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Марка:</label>
@@ -9,10 +7,8 @@
     class="multiselect-blue" />
 </div>
 
-
 <div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Модель:</label>
-
 
   <Multiselect v-if="brands === undefined || brands === null" v-model="model" :options="compareBrands[brands]"
     placeholder="Любая" mode="single" class="multiselect-blue" disabled="false" />
@@ -20,26 +16,17 @@
     class="multiselect-blue" />
 </div>
 
-
-
-
-
-
 <div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Кузов:</label>
   <Multiselect v-model="kuzov" :options="['Кроссвэн', 'Хэтчбек', 'Универсал', 'Седан', 'Кроссовер']"
     placeholder="Любой" mode="tags" class="multiselect-blue" />
 </div>
 
-
-
-
 <div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Трансмиссия:</label>
   <Multiselect v-model="kpp" :options="['АКПП', 'МКПП', 'Вариатор']" placeholder="Любая" mode="tags"
     class="multiselect-blue" />
 </div>
-
 
 <form class="w-72 mt-2 mr-2 inline-block">
   <label class="block mb-2 text-sm font-medium text-gray-900">Мощность двигателя:</label>
@@ -58,24 +45,11 @@
   </div>
 </form>
 
-
-
-
-
-
-
-
-
-<!-- disabled="false" -->
-
 <div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Двигатель:</label>
   <Multiselect v-model="engine" :options="['Бензин', 'Дизель', 'Электро']" placeholder="Любой" mode="tags"
     class="multiselect-blue" />
 </div>
-
-
-
 
 <form class="w-72 inline-block mr-2">
   <label class="block mb-2 text-sm font-medium text-gray-900">Цена:</label>
@@ -94,12 +68,7 @@
       class="rounded-none rounded-e-lg bg-gray-0 border border-gray-300 text-gray-900 focus:ring-blue-500 focus:border-blue-500 block flex-1 min-w-0 w-full text-sm p-2.5  "
       placeholder="Цена до">
   </div>
-
 </form>
-
-
-
-
 
 <div class="min-w-72 mt-2 mr-2 inline-block">
   <label for="countries" class="block mb-2 text-sm font-medium text-gray-900">Цвет:</label>
@@ -141,7 +110,6 @@ watch(doPrice, () => {
   searchPush()
 })
 
-
 const powerVM = ref([100, 550])
 const colorsVM = ref([])
 
@@ -178,7 +146,6 @@ function ffOptions() {
 }
 ffOptions()
 
-
 let search = inject("search")
 function searchPush() { //строка поиска
   search.value = []
@@ -209,25 +176,10 @@ function searchPush() { //строка поиска
   }
 }
 
-
-
-
-
 watch([colorsVM, powerVM.value, kuzov, kpp, brands, engine, model], () => {
   searchPush()
 })
-
-
-
-
-
-
-
 </script>
-
-
-
-
 
 <style>
 .slider-blue {

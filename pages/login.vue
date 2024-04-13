@@ -32,10 +32,7 @@
                 class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center">Войти</button>
             <button @click="RegOrLogin = 1" class="ml-3 text-gray-700">У меня нет аккаунта</button>
         </div>
-
     </div>
-
-
 
     <div class="mx-auto w-24" v-if="productStore.user > 1">
         Ваш id = {{ productStore.user }}
@@ -46,11 +43,10 @@
 
 <script setup>
 import { useProduct } from '../store/productStore'
+
 const productStore = useProduct();
 const runtimeConfig = useRuntimeConfig()
 const RegOrLogin = ref(1) //выбор вход или регистрация
-
-
 
 const regLogin = ref() //введенный логин в регистрации
 const regPass = ref() //введенный пароль в регистрации
@@ -60,7 +56,6 @@ async function registration() {
     for (let i = 0; i < getData.length; i++) {
         logins.push(getData[i].login) //пуш логинов
     }
-    console.log()
     if (logins.includes(regLogin.value) == false) { //если такого логина ещё нет допускается регистрация
         const { data } = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'POST', body: { "id": getData.length + 1, "login": regLogin.value, "pass": regPass.value } })
         const gettData = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'GET' })
@@ -71,7 +66,6 @@ async function registration() {
         alert("Пользователь с таким логином уже существует")
     }
 }
-
 
 const enterLogin = ref() //введенный логин во входе
 const enterPass = ref() //введенный пароль во входе
@@ -85,8 +79,6 @@ async function enter() {
     }
 
     let indexLogin = logins.indexOf(enterLogin.value) //поиск введенного логина в массиве и возврат индекса, если найден
-    // let indexPass = passes.indexOf(enterPass.value) //поиск введенного пароля в массиве и возврат индекса, если найден
-
     if (indexLogin > 0 && enterPass.value == passes[indexLogin]) { // if индекс логина больше 0, введенный пароль = паролю с индексом логина в списке паролей 
         alert("успешно")
         productStore.user = indexLogin + 1

@@ -23,34 +23,21 @@
                     <button @click="deleteFromCart(main.id)">⨉</button>
                   </p>
 
-
-
                   <p class="text-s text-gray-500 truncate d">
                     {{ main.power }}л.с. / {{ main.engine }} / {{
                       main.transmission }} / {{ main.kuzov }} / {{ main.color }}
                   </p>
                 </div>
 
-
-
-
                 <button @click="minusCart(main.id)" type="button"
                   class="inline-flex items-center px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-s-lg hover:bg-gray-100">
                   -
                 </button>
 
-
-
                 <a type="button"
                   class="px-4 py-2 text-sm font-medium text-gray-900 bg-white border-t border-b border-gray-200">
                   {{ productStore.simile[main.id] }}
                 </a>
-
-
-
-
-
-
 
                 <button @click="plusCart(main.id)" type="button"
                   class=" px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 ">
@@ -60,15 +47,9 @@
                 <div class="inline-flex text-xl items-center text-base font-semibold text-gray-900 mr-2">
                   {{ (main.price * productStore.simile[main.id]).toLocaleString() }} ₽
                 </div>
-
-
-
-
-
               </div>
             </li>
           </a>
-
         </ul>
       </div>
     </div>
@@ -80,15 +61,6 @@
 import { useProduct } from '../store/productStore'
 const runtimeConfig = useRuntimeConfig()
 const productStore = useProduct();
-
-
-
-
-
-
-
-
-
 
 const mainInfo = ref(0)
 async function update() {
@@ -130,15 +102,12 @@ function plusCart(value) {
   productStore.findSame()
 }
 
-
 function minusCart(value) {
   productStore.minusCart(value);
   productStore.findSame()
 }
 
-
-
-const cartSumm = ref(0)
+const cartSumm = ref(0) //переделать
 function fCartSumm() {
   cartSumm.value = 0
   for (let i = 0; i < mainInfo.value.length; i++)
