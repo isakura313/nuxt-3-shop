@@ -59,8 +59,9 @@ async function registration() {
     if (logins.includes(regLogin.value) == false) { //если такого логина ещё нет допускается регистрация
         const { data } = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'POST', body: { "id": getData.length + 1, "login": regLogin.value, "pass": regPass.value } })
         const gettData = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'GET' })
-        productStore.user = gettData.length + 1  //задает id пользователя в аккаунте
+        productStore.user = gettData.length  //задает id пользователя в аккаунте
         const { data2 } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: { "id": getData.length + 1, "carts": {} } }) //создает корзину для нового пользователя
+        const { data3 } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: { "id": getData.length + 1, "favourites": {} } }) //создает избанное для нового пользователя
     }
     else {
         alert("Пользователь с таким логином уже существует")
@@ -88,5 +89,24 @@ async function enter() {
         productStore.user = 1
     }
 }
-// {"id": 1, "login": "guest", "pass": "guest"}
+// {
+// "cart": [
+//     {
+//       "id": 1,
+//       "carts": {}
+//     }
+// ],
+//   "favourite": [
+// {
+//       "id": 1,
+//       "favourites": {}
+// }
+// ],
+//   "users": [
+//     {
+//       "id": 1,
+//       "login": "guest",
+//       "pass": "guest"
+//     }
+//   ],
 </script>

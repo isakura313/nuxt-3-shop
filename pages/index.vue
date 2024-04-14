@@ -51,9 +51,16 @@
 
 
 
-          <!-- 
-          <button v-if="simileFavourite[main.id - 1] == -1"
-            @click="simileFavourite[main.id - 1] = -100, addToFavourite(main), compareFavourite()"
+
+
+
+
+
+
+
+
+          <button v-if="favouriteStore.simile[main.id] == 0"
+            @click="favouriteStore.simile[main.id] = 'loader', addToFavourite(main)"
             class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
             <svg class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24"
               height="24" fill="none" viewBox="0 0 24 24">
@@ -63,7 +70,17 @@
           </button>
 
 
-          <button v-if="simileFavourite[main.id - 1] == -100"
+          <button v-if="favouriteStore.simile[main.id] == 1" @click="deleteFromFavourite(main.id)"
+            class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "><svg
+              class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+              fill="currentColor" viewBox="0 0 24 24">
+              <path
+                d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z" />
+            </svg>
+          </button>
+
+
+          <button v-if="favouriteStore.simile[main.id] == 'loader'"
             class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 ">
             <svg aria-hidden="true" class="inline w-6 h-6 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
               viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -76,20 +93,6 @@
             </svg>
           </button>
 
-
-
-
-
-          <button v-if="simileFavourite[main.id - 1] >= 0"
-            @click="simileFavourite[main.id - 1] = -100, deleteFromFavourite(main)"
-            class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 "><svg
-              class="w-6 h-6 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-              fill="currentColor" viewBox="0 0 24 24">
-              <path
-                d="m12.75 20.66 6.184-7.098c2.677-2.884 2.559-6.506.754-8.705-.898-1.095-2.206-1.816-3.72-1.855-1.293-.034-2.652.43-3.963 1.442-1.315-1.012-2.678-1.476-3.973-1.442-1.515.04-2.825.76-3.724 1.855-1.806 2.201-1.915 5.823.772 8.706l6.183 7.097c.19.216.46.34.743.34a.985.985 0 0 0 .743-.34Z" />
-            </svg>
-          </button> -->
-
         </div>
       </div>
     </div>
@@ -100,10 +103,12 @@
 
 <script setup>
 import { useProduct } from '../store/productStore'
+import { useFavourite } from '../store/productFavourite'
 import Filters from "../src/components/index/filters.vue"
 import Pagination from "../src/components/index/pagination.vue"
 const runtimeConfig = useRuntimeConfig()
 const productStore = useProduct();
+const favouriteStore = useFavourite();
 
 let search = ref([])
 provide("search", search)
@@ -152,4 +157,15 @@ function addToCart(value) {
 }
 productStore.findSame()
 
+
+
+function addToFavourite(value) {
+  favouriteStore.addToFavourite(value);
+  favouriteStore.findFavourite()
+}
+function deleteFromFavourite(value) {
+  favouriteStore.deleteFromFavourite(value);
+  favouriteStore.findFavourite()
+}
+favouriteStore.findFavourite()
 </script>

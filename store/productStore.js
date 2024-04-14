@@ -48,7 +48,7 @@ export const useProduct = defineStore("productStore", {
 
     findSame() {  //массив объектов {id: кол-во в корзине}
       if (this.user == 1) { // если пользователь гость
-        this.simile = []
+        this.simile = {}
         let keys = Object.keys(this.cart) //ключи из объектов в один массив
         let keysNum = keys.map((item) => Number(item)) //строки в массиве в числа
         let values = Object.values(this.cart) //значения из объектов в один массив
