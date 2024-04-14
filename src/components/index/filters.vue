@@ -99,7 +99,6 @@ function ffSliderPrice() {
   doPrice.value = String(sliderPrice.value[1])
 }
 watch(otPrice, () => {
-
   otPrice.value = Number(otPrice.value.replace(/\D/g, '')).toLocaleString();
   otPriceVM.value = (Number(otPrice.value.replace(/\D/g, '')))
   searchPush()
