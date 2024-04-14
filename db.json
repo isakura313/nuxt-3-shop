@@ -5,6 +5,12 @@
       "carts": {}
     }
   ],
+  "favourite": [
+    {
+      "id": 1,
+      "favourites": {}
+    }
+  ],
   "users": [
     {
       "id": 1,
@@ -12,7 +18,6 @@
       "pass": "guest"
     }
   ],
-  "favourite": [],
   "products": [
     {
       "id": 1,

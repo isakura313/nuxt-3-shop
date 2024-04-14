@@ -107,16 +107,16 @@ function minusCart(value) {
   productStore.findSame()
 }
 
-const cartSumm = ref(0) //переделать
-function fCartSumm() {
-  cartSumm.value = 0
-  for (let i = 0; i < mainInfo.value.length; i++)
-    cartSumm.value = cartSumm.value + (mainInfo.value[i].price * mainInfo.value[i].amount)
-  console.log(cartSumm)
-}
-watch(mainInfo, () => {
-  fCartSumm()
-})
+// const cartSumm = ref(0) //переделать
+// function fCartSumm() {
+//   cartSumm.value = 0
+//   for (let i = 0; i < mainInfo.value.length; i++)
+//     cartSumm.value = cartSumm.value + (mainInfo.value[i].price * mainInfo.value[i].amount)
+//   console.log(cartSumm)
+// }
+// watch(mainInfo, () => {
+//   fCartSumm()
+// })
 
 
 </script>

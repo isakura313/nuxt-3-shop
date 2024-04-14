@@ -132,7 +132,7 @@ const optionsBrands = ref()
 function ffOptions() {
   const data = db.products
   let brand = []
-  for (let i = 0; i < db.products.length; i++) {
+  for (let i = 0; i < 22; i++) {
     brand.push(data[i].brand)
 
   }
@@ -140,7 +140,7 @@ function ffOptions() {
   for (let i = 0; i < optionsBrands.value.length; i++) { // Brand : []
     compareBrands.value[optionsBrands.value[i]] = []
   }
-  for (let i = 0; i < db.products.length; i++) { // Brand : ['Model1', 'Model2', ...]
+  for (let i = 0; i < 22; i++) { // Brand : ['Model1', 'Model2', ...]
     compareBrands.value[data[i].brand].push(data[i].model)
   }
 }
