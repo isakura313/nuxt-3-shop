@@ -83,7 +83,7 @@ export const useProduct = defineStore("productStore", {
     },
 
     editQuantity() {
-      this.quantity = [0, 0] //кол-во товаров в корзине и их сумма
+      this.quantity = ['loader', 0] //кол-во товаров в корзине и их сумма
       if (this.user == 1) { //если гость (1)
         let keysNum = Object.keys(this.cart) //ключи из объектов в один массив
         let keys = keysNum.map((item) => Number(item - 1)) //строки в массиве в числа -1 тк из id в индекс

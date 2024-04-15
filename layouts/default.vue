@@ -14,6 +14,16 @@
                         </a>
                     </NuxtLink>
 
+
+
+
+
+
+
+
+
+
+
                     <div class="flex items-center space-x-4 rtl:space-x-reverse  font-medium pt-2">
                         <NuxtLink to="/favourite" @click="page = 2">
                             <svg class="w-[29px] h-[29px] text-gray-700" aria-hidden="true"
@@ -36,7 +46,7 @@
                                         d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312" />
                                 </svg>
 
-                                <span v-if="productStore.quantity[0] == 0"
+                                <span v-if="productStore.quantity[0] == 'loader'"
                                     class="absolute inline-flex items-center justify-center w-5 h-5 text-xs font-bold text-white bg-blue-800 border-2 border-white rounded-full -top-2 -end-2">
                                     <svg aria-hidden="true"
                                         class="inline w-3 h-3 text-gray-200 animate-spin fill-blue-600"
@@ -57,7 +67,12 @@
                             </button>
                         </NuxtLink>
 
-                        <NuxtLink to="/login">
+
+
+
+
+
+                        <!-- <NuxtLink to="/login">
                             <svg class="w-[29px] h-[29px] text-gray-800 dark:text-white" aria-hidden="true"
                                 xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none"
                                 viewBox="0 0 24 24">
@@ -65,8 +80,63 @@
                                     stroke-width="1.6"
                                     d="M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18Zm0 0a8.949 8.949 0 0 0 4.951-1.488A3.987 3.987 0 0 0 13 16h-2a3.987 3.987 0 0 0-3.951 3.512A8.948 8.948 0 0 0 12 21Zm3-11a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
                             </svg>
+                            {{ productStore.user }}
+                        </NuxtLink> -->
+
+
+
+
+
+
+
+
+                        <NuxtLink to="/login">
+                            <button type="button"
+                                class="py-1.5 px-5 me-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">
+
+                                <a v-if="productStore.user == 1">Войти</a>
+                                <a v-else>{{ productStore.name }}</a>
+                            </button>
+
                         </NuxtLink>
-                        {{ productStore.user }}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                     </div>
                 </div>
             </nav>
