@@ -6,10 +6,6 @@
         <h5 class="text-xl font-bold leading-none text-gray-900 ">Сумма товаров:</h5>
         <a class="text-sm font-medium text-blue-600 hover:underline ">
 
-
-
-
-
           <a v-if="productStore.quantity[0] == 'loader'">
             <svg aria-hidden="true" class="inline w-3 h-3 text-gray-200 animate-spin fill-blue-600"
               viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -22,17 +18,13 @@
             </svg>
           </a>
 
-
           <a v-if="productStore.quantity[0] == 0">
             Добавьте что-то скорее
           </a>
-          <a v-else>
+          
+          <a v-if="productStore.quantity[0] > 0">
             {{ productStore.quantity[1].toLocaleString() }} ₽
           </a>
-
-
-
-
         </a>
       </div>
 
