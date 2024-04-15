@@ -32,7 +32,7 @@
       <label class="block mb-2 text-sm font-medium text-gray-900">Мощность двигателя:</label>
       <div>
         <Slider :tooltips="false" v-model="sliderPower" @input="ffSliderPower()" class="slider-blue  ml-5 mr-5"
-          :min="100" :max="550" :lazy="false" />
+          :step="10" :min="100" :max="550" :lazy="false" />
       </div>
       <div class="flex">
         <input v-model="powerVM[0]"
@@ -55,8 +55,8 @@
       <label class="block mb-2 text-sm font-medium text-gray-900">Цена:</label>
 
       <div>
-        <Slider :tooltips="false" v-model="sliderPrice" @input="ffSliderPrice()" class="slider-blue ml-5 mr-5"
-          :min="2000000" :max="12000000" :lazy="false" />
+        <Slider :step="100000" :tooltips="false" v-model="sliderPrice" @input="ffSliderPrice()"
+          class="slider-blue ml-5 mr-5" :min="2000000" :max="12000000" :lazy="false" />
       </div>
 
       <div class="flex">

@@ -1,15 +1,15 @@
 <template>
     <div v-if="productStore.user == 1">
 
-        <div v-if="RegOrLogin == 1" class="max-w-sm mx-auto">
+        <div v-if="RegOrLogin == 1" class="max-w-80 mx-auto">
             <div class="mb-5">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Логин</label>
-                <input v-model="regLogin"
+                <input placeholder="Dexone" v-model="regLogin"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
             <div class="mb-5">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Пароль</label>
-                <input v-model="regPass" type="password"
+                <input placeholder="•••••••••" v-model="regPass" type="password"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
             <button @click="registration()"
@@ -17,15 +17,15 @@
             <button @click="RegOrLogin = 2" class="ml-3 text-gray-700"> Уже есть аккаунт?</button>
         </div>
 
-        <div v-if="RegOrLogin == 2" class="max-w-sm mx-auto">
+        <div v-if="RegOrLogin == 2" class="max-w-80 mx-auto">
             <div class="mb-5">
                 <label for="email" class="block mb-2 text-sm font-medium text-gray-900">Логин</label>
-                <input v-model="enterLogin"
+                <input placeholder="Dexone" v-model="enterLogin"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
             <div class="mb-5">
-                <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Пароль</label>
-                <input v-model="enterPass" type="password"
+                <label class="block mb-2 text-sm font-medium text-gray-900">Пароль</label>
+                <input placeholder="•••••••••" v-model="enterPass" type="password"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
             <button @click="enter()"
@@ -34,21 +34,68 @@
         </div>
     </div>
 
-    <div class="mx-auto max-w-sm" v-if="productStore.user > 1">
-        <div
-            class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
+    <div class="mx-auto max-w-80" v-if="productStore.user > 1">
+        <div class="w-full max-w-80 bg-white border border-gray-200 rounded-lg shadow">
             <div class="flex justify-end px-4 pt-8">
             </div>
             <div class="flex flex-col items-center pb-10">
                 <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="/public/user.png" />
                 <h5 class="mb-1 text-xl font-medium text-gray-900">{{ productStore.name }}</h5>
-                <span class="text-sm text-gray-500">ID: {{ productStore.user }}</span>
-                <div class="flex mt-4 md:mt-6">
-                    <button @click="productStore.user = 1"
-                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Выйти</button>
-                        <NuxtLink to="/cart"> <button
-                        class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">В корзину</button></NuxtLink>
+
+
+
+
+                <div class="flex flex-col items-center" v-if="tfPassword == false">
+                    <span class="text-sm text-gray-500">ID аккаунта: {{ productStore.user }}</span>
+                    <span class="text-sm text-gray-500">Товаров в корзине: {{ productStore.quantity[0] }}</span>
+                    <span class="text-sm text-gray-500">Сумма товаров: {{ productStore.quantity[1] }}</span>
+                    <div class="flex mt-4 md:mt-6">
+                        <button @click="productStore.user = 1"
+                            class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Выйти</button>
+                        <button @click="tfPassword = true"
+                            class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Сменить
+                            пароль</button>
+                    </div>
+
+
+                    <button @click="deleteAccount()"
+                        class="py-2 px-14 mt-2 text-sm font-medium focus:outline-none bg-red-50 rounded-lg border border-red-500 text-red-700 hover:bg-red-150 hover:text-red-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Удалить
+                        аккаунт</button>
+
+
                 </div>
+
+                <div v-if="tfPassword == true">
+                    <div class="mb-6">
+                        <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Новый пароль</label>
+                        <input v-model="newPassword" type="password"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 "
+                            placeholder="•••••••••">
+                    </div>
+                    <div class="mb-6">
+                        <label class="block mb-2 text-sm font-medium text-gray-900">Повторите пароль</label>
+                        <input v-model="newPasswordRepeat" type="password"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                            placeholder="•••••••••">
+                    </div>
+                    <button @click="tfPassword = false"
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Назад</button>
+                    <button @click="editPassword()"
+                        class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Сменить
+                        пароль</button>
+
+
+
+
+
+                </div>
+
+
+
+
+
+
+
             </div>
         </div>
 
@@ -112,6 +159,30 @@ async function enter() {
         enterPass.value = ''
     }
 }
+
+
+
+const tfPassword = ref(false)
+const newPassword = ref()
+const newPasswordRepeat = ref()
+async function editPassword() {
+    const getData = await $fetch(`${runtimeConfig.public.apiBase}/users/${productStore.user}`, { method: 'GET' })
+    if (newPassword.value == newPasswordRepeat.value) {
+        const { data } = await $fetch(`${runtimeConfig.public.apiBase}/users/${productStore.user}`, { method: 'PATCH', body: { "pass": newPassword.value } }) //пуш id товара в корзину
+        alert("Успешно")
+    }
+    else {
+        alert("Пароли не совпадают")
+    }
+}
+
+
+async function deleteAccount() {
+    const getData = await $fetch(`${runtimeConfig.public.apiBase}/users/${productStore.user}`, { method: 'DELETE' })
+    productStore.user = 1
+}
+
+
 // {
 // "cart": [
 //     {
