@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { useProduct } from './productStore'
 import axios from 'axios'
+import db from '../db.json'
 
 export const useUser = defineStore("userStore", {
     state: () => ({}),
@@ -55,6 +56,22 @@ export const useUser = defineStore("userStore", {
                 })
             }, 500);
         },
+
+
+        editQuantity() {
+            setTimeout(() => {
+                axios.get(`http://5.35.98.166:3000/cart/${useProduct().user}`).then((res) => {
+                    let keysNum = Object.keys(res.data.carts) //ключи из объектов в один массив
+                    let keys = keysNum.map((item) => Number(item - 1)) //строки в массиве в числа -1 тк из id в индекс
+                    let values = Object.values(res.data.carts) //значения из объектов в один массив
+                    useProduct().quantity[0] = keys.length //количество
+                    for (let i = 0; i < useProduct().quantity[0]; i++) {
+                        useProduct().quantity[1] = useProduct().quantity[1] + (values[i] * db.products[keys[i]].price) //сумма = сумма + (количество[индекс в массиве] * цена[индекс в db])
+                    }
+                })
+            }, 500);
+        }
+
     },
     persist: true,
 });

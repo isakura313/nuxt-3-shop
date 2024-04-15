@@ -9,7 +9,7 @@
             </div>
             <div class="mb-5">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Пароль</label>
-                <input v-model="regPass"
+                <input v-model="regPass" type="password"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
             <button @click="registration()"
@@ -25,7 +25,7 @@
             </div>
             <div class="mb-5">
                 <label for="password" class="block mb-2 text-sm font-medium text-gray-900">Пароль</label>
-                <input v-model="enterPass"
+                <input v-model="enterPass" type="password"
                     class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
             </div>
             <button @click="enter()"
@@ -34,9 +34,27 @@
         </div>
     </div>
 
-    <div class="mx-auto w-24" v-if="productStore.user > 1">
-        Ваш id = {{ productStore.user }}
-        <button @click="productStore.user = 1">Выйти</button>
+    <div class="mx-auto max-w-sm" v-if="productStore.user > 1">
+        <div
+            class="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow">
+            <div class="flex justify-end px-4 pt-8">
+            </div>
+            <div class="flex flex-col items-center pb-10">
+                <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="/public/user.png" />
+                <h5 class="mb-1 text-xl font-medium text-gray-900">{{ productStore.name }}</h5>
+                <span class="text-sm text-gray-500">ID: {{ productStore.user }}</span>
+                <div class="flex mt-4 md:mt-6">
+                    <button @click="productStore.user = 1"
+                        class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Выйти</button>
+                        <NuxtLink to="/cart"> <button
+                        class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">В корзину</button></NuxtLink>
+                </div>
+            </div>
+        </div>
+
+
+
+
     </div>
 
 </template>
@@ -62,9 +80,12 @@ async function registration() {
         productStore.user = gettData.length  //задает id пользователя в аккаунте
         const { data2 } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: { "id": getData.length + 1, "carts": {} } }) //создает корзину для нового пользователя
         const { data3 } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: { "id": getData.length + 1, "favourites": {} } }) //создает избанное для нового пользователя
+        productStore.name = regLogin.value
     }
     else {
         alert("Пользователь с таким логином уже существует")
+        regLogin.value = ''
+        regPass.value = ''
     }
 }
 
@@ -81,12 +102,14 @@ async function enter() {
 
     let indexLogin = logins.indexOf(enterLogin.value) //поиск введенного логина в массиве и возврат индекса, если найден
     if (indexLogin > 0 && enterPass.value == passes[indexLogin]) { // if индекс логина больше 0, введенный пароль = паролю с индексом логина в списке паролей 
-        alert("успешно")
         productStore.user = indexLogin + 1
+        productStore.name = enterLogin.value
     }
     else { // if индекс логина и пароля не совпадает >> productStore.user = 1, т.е. гость
         alert("неверный логин или пароль")
         productStore.user = 1
+        enterLogin.value = ''
+        enterPass.value = ''
     }
 }
 // {

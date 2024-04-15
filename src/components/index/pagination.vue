@@ -48,7 +48,7 @@ function ffPage() {
     for (let i = 1; i < Math.ceil(data.data.value.length / 10) + 1; i++) {
       totalPages.value.push(i)
     }
-}, 500);
+  }, 500);
 }
 ffPage()
 const color = ref([])

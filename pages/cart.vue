@@ -5,7 +5,7 @@
       <div class="flex items-center justify-between mb-4">
         <h5 class="text-xl font-bold leading-none text-gray-900 ">Сумма товаров:</h5>
         <a class="text-sm font-medium text-blue-600 hover:underline ">
-          <!-- {{ cartSumm.toLocaleString() }} ₽ -->
+          {{ productStore.quantity[1].toLocaleString() }} ₽
         </a>
       </div>
 
@@ -93,19 +93,16 @@ update()
 
 function deleteFromCart(value) {
   productStore.deleteFromCart(value);
-  productStore.findSame()
 }
-productStore.findSame()
-
 function plusCart(value) {
   productStore.plusCart(value);
-  productStore.findSame()
 }
-
 function minusCart(value) {
   productStore.minusCart(value);
-  productStore.findSame()
 }
+productStore.findSame()
+productStore.editQuantity()
+
 
 // const cartSumm = ref(0) //переделать
 // function fCartSumm() {
