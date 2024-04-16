@@ -188,7 +188,6 @@ watch([colorsVM, powerVM.value, kuzov, kpp, brands, engine, model], () => {
   --slider-handle-height: 13px;
 
 }
-
 .multiselect-blue {
   --ms-tag-bg: #DBEAFE;
   --ms-tag-color: #2563EB;
