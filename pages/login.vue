@@ -50,7 +50,7 @@
                     <span class="text-sm text-gray-500">Товаров в корзине: {{ productStore.quantity[0] }}</span>
                     <span class="text-sm text-gray-500">Сумма товаров: {{ productStore.quantity[1] }}</span>
                     <div class="flex mt-4 md:mt-6">
-                        <button @click="productStore.user = 1"
+                        <button @click="productStore.user = 1, productStore.editQuantity()"
                             class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300">Выйти</button>
                         <button @click="tfPassword = true"
                             class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Сменить
@@ -94,7 +94,7 @@
 
 
 
-
+                <button @click="synchronizationCart()">test</button>
 
             </div>
         </div>
@@ -108,8 +108,10 @@
 
 <script setup>
 import { useProduct } from '../store/productStore'
+import { useFavourite } from '../store/productFavourite'
 
 const productStore = useProduct();
+const favouriteStore = useFavourite();
 const runtimeConfig = useRuntimeConfig()
 const RegOrLogin = ref(1) //выбор вход или регистрация
 
@@ -128,6 +130,8 @@ async function registration() {
         const { data2 } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: { "id": getData.length + 1, "carts": {} } }) //создает корзину для нового пользователя
         const { data3 } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: { "id": getData.length + 1, "favourites": {} } }) //создает избанное для нового пользователя
         productStore.name = regLogin.value
+        synchronizationCart()
+
     }
     else {
         alert("Пользователь с таким логином уже существует")
@@ -151,6 +155,8 @@ async function enter() {
     if (indexLogin > 0 && enterPass.value == passes[indexLogin]) { // if индекс логина больше 0, введенный пароль = паролю с индексом логина в списке паролей 
         productStore.user = indexLogin + 1
         productStore.name = enterLogin.value
+        synchronizationCart()
+
     }
     else { // if индекс логина и пароля не совпадает >> productStore.user = 1, т.е. гость
         alert("неверный логин или пароль")
@@ -180,6 +186,63 @@ async function editPassword() {
 async function deleteAccount() {
     const getData = await $fetch(`${runtimeConfig.public.apiBase}/users/${productStore.user}`, { method: 'DELETE' })
     productStore.user = 1
+    productStore.editQuantity()
+}
+
+
+
+
+async function synchronizationCart() {
+    let localData = productStore.cart
+    const getData = await $fetch(`${runtimeConfig.public.apiBase}/cart/${productStore.user}`, { method: 'GET' })
+    let editData = getData.carts
+
+    let keysLocal = Object.keys(localData) //ключи из объектов в один массив
+    let keysUser = Object.keys(editData) //ключи из объектов в один массив
+
+    for (let i = 0; i < keysLocal.length; i++) {
+        let search = keysUser.includes(keysLocal[i])
+        if (search == true) {
+            console.log("Ничего не делать")
+        }
+        else {
+            editData[keysLocal[i]] = localData[keysLocal[i]]
+        }
+
+    }
+    const { data } = await $fetch(`http://5.35.98.166:3000/cart/${productStore.user}`, { method: 'PATCH', body: { "carts": editData } })
+    productStore.cart = {}
+    synchronizationFavourite()
+}
+
+
+
+
+
+
+
+async function synchronizationFavourite() {
+    let localData = favouriteStore.favourite
+    const getData = await $fetch(`${runtimeConfig.public.apiBase}/favourite/${productStore.user}`, { method: 'GET' })
+    let editData = getData.favourites
+
+    let keysLocal = Object.keys(localData) //ключи из объектов в один массив
+    let keysUser = Object.keys(editData) //ключи из объектов в один массив
+
+    for (let i = 0; i < keysLocal.length; i++) {
+        let search = keysUser.includes(keysLocal[i])
+        if (search == true) {
+            console.log("Ничего не делать")
+        }
+        else {
+            editData[keysLocal[i]] = localData[keysLocal[i]]
+        }
+
+    }
+
+    const { data } = await $fetch(`http://5.35.98.166:3000/favourite/${productStore.user}`, { method: 'PATCH', body: { "favourites": editData } })
+    favouriteStore.favourite = {}
+    productStore.editQuantity()
 }
 
 
