@@ -28,8 +28,6 @@ export const useFavourite = defineStore("favouriteStore", {
             }
         },
 
-
-
         findFavourite() {  //массив объектов {id: кол-во в корзине}
             if (useProduct().user == 1) { // если пользователь гость
                 this.simile = {}
@@ -49,10 +47,6 @@ export const useFavourite = defineStore("favouriteStore", {
                 useFavouriteUser().findFavourite()
             }
         },
-
-
-
     },
-
     persist: true,
 });

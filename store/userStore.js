@@ -57,7 +57,6 @@ export const useUser = defineStore("userStore", {
             }, 500);
         },
 
-
         editQuantity() {
             setTimeout(() => {
                 axios.get(`http://5.35.98.166:3000/cart/${useProduct().user}`).then((res) => {
@@ -71,7 +70,6 @@ export const useUser = defineStore("userStore", {
                 })
             }, 500);
         }
-
     },
     persist: true,
 });

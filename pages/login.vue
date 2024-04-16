@@ -42,9 +42,6 @@
                 <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="/public/user.png" />
                 <h5 class="mb-1 text-xl font-medium text-gray-900">{{ productStore.name }}</h5>
 
-
-
-
                 <div class="flex flex-col items-center" v-if="tfPassword == false">
                     <span class="text-sm text-gray-500">ID аккаунта: {{ productStore.user }}</span>
                     <span class="text-sm text-gray-500">Товаров в корзине: {{ productStore.quantity[0] }}</span>
@@ -57,12 +54,9 @@
                             пароль</button>
                     </div>
 
-
                     <button @click="deleteAccount()"
                         class="py-2 px-14 mt-2 text-sm font-medium focus:outline-none bg-red-50 rounded-lg border border-red-500 text-red-700 hover:bg-red-150 hover:text-red-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Удалить
                         аккаунт</button>
-
-
                 </div>
 
                 <div v-if="tfPassword == true">
@@ -83,25 +77,9 @@
                     <button @click="editPassword()"
                         class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Сменить
                         пароль</button>
-
-
-
-
-
                 </div>
-
-
-
-
-
-                <button @click="synchronizationCart()">test</button>
-
             </div>
         </div>
-
-
-
-
     </div>
 
 </template>
@@ -182,15 +160,11 @@ async function editPassword() {
     }
 }
 
-
 async function deleteAccount() {
     const getData = await $fetch(`${runtimeConfig.public.apiBase}/users/${productStore.user}`, { method: 'DELETE' })
     productStore.user = 1
     productStore.editQuantity()
 }
-
-
-
 
 async function synchronizationCart() {
     let localData = productStore.cart
@@ -215,12 +189,6 @@ async function synchronizationCart() {
     synchronizationFavourite()
 }
 
-
-
-
-
-
-
 async function synchronizationFavourite() {
     let localData = favouriteStore.favourite
     const getData = await $fetch(`${runtimeConfig.public.apiBase}/favourite/${productStore.user}`, { method: 'GET' })
@@ -239,31 +207,8 @@ async function synchronizationFavourite() {
         }
 
     }
-
     const { data } = await $fetch(`http://5.35.98.166:3000/favourite/${productStore.user}`, { method: 'PATCH', body: { "favourites": editData } })
     favouriteStore.favourite = {}
     productStore.editQuantity()
 }
-
-
-// {
-// "cart": [
-//     {
-//       "id": 1,
-//       "carts": {}
-//     }
-// ],
-//   "favourite": [
-// {
-//       "id": 1,
-//       "favourites": {}
-// }
-// ],
-//   "users": [
-//     {
-//       "id": 1,
-//       "login": "guest",
-//       "pass": "guest"
-//     }
-//   ],
 </script>

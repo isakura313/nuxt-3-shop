@@ -14,7 +14,7 @@
   "users": [
     {
       "id": 1,
-      "login": "guest",
+      "login": "guester",
       "pass": "guest"
     }
   ],

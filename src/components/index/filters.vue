@@ -86,9 +86,6 @@ defineProps({
   required: true
 })
 
-
-
-
 const otPrice = ref()
 const doPrice = ref()
 const otPriceVM = ref(2000000)

@@ -70,8 +70,6 @@
                   <a v-else>{{ productStore.simile[main.id] }}</a>
                 </a>
 
-
-
                 <button @click="productStore.simile[main.id] = 'loader', plusCart(main.id)" type="button"
                   class=" px-4 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-e-lg hover:bg-gray-100 ">
                   +
@@ -126,7 +124,6 @@ async function update() {
 }
 update()
 
-
 function deleteFromCart(value) {
   productStore.deleteFromCart(value);
 }
@@ -138,18 +135,4 @@ function minusCart(value) {
 }
 productStore.findSame()
 productStore.editQuantity()
-
-
-// const cartSumm = ref(0) //переделать
-// function fCartSumm() {
-//   cartSumm.value = 0
-//   for (let i = 0; i < mainInfo.value.length; i++)
-//     cartSumm.value = cartSumm.value + (mainInfo.value[i].price * mainInfo.value[i].amount)
-//   console.log(cartSumm)
-// }
-// watch(mainInfo, () => {
-//   fCartSumm()
-// })
-
-
 </script>

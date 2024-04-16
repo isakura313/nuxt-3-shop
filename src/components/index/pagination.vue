@@ -30,7 +30,6 @@
   </nav>
 </template>
 
-
 <script setup>
 defineProps({
   type: Object,
@@ -80,7 +79,6 @@ function ffLeft() {
   }
 }
 //pagination
-
 
 watch(search, () => {
   ffPage()
