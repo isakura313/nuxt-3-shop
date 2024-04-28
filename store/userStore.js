@@ -15,7 +15,7 @@ export const useUser = defineStore("userStore", {
         },
 
         async addToCart(value) {
-            const editData = await getDataCarts
+            const editData = await this.getDataCarts()
 
             console.log(editData)
             editData[value.id] = 1
@@ -23,19 +23,19 @@ export const useUser = defineStore("userStore", {
         },
 
         async deleteFromCart(value) {
-            const editData = await getDataCarts
+            const editData = await this.getDataCarts()
             delete editData[value]
             await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
         },
 
         async plusCart(value) {
-            const editData = await getDataCarts
+            const editData = await this.getDataCarts()
             editData[value] = editData[value] + 1
             await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
         },
 
         async minusCart(value) {
-            const editData = await getDataCarts
+            const editData = await this.getDataCarts()
             if (editData[value] > 1) {
                 editData[value] = editData[value] - 1
                 await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
