@@ -86,9 +86,6 @@ defineProps({
   required: true
 })
 
-
-
-
 const otPrice = ref()
 const doPrice = ref()
 const otPriceVM = ref(2000000)
@@ -191,7 +188,6 @@ watch([colorsVM, powerVM.value, kuzov, kpp, brands, engine, model], () => {
   --slider-handle-height: 13px;
 
 }
-
 .multiselect-blue {
   --ms-tag-bg: #DBEAFE;
   --ms-tag-color: #2563EB;

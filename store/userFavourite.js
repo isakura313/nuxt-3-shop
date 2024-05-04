@@ -5,9 +5,7 @@ import axios from 'axios'
 
 export const useFavouriteUser = defineStore("favouriteUser", {
     state: () => ({}),
-    getters: {
-
-    },
+    getters: {},
     actions: {
         async addToFavourite(value) {
             const getData = await $fetch(`http://5.35.98.166:3000/favourite/${useProduct().user}`, { method: 'GET' }) //получить корзину пользователя
@@ -16,15 +14,12 @@ export const useFavouriteUser = defineStore("favouriteUser", {
             const { data } = await $fetch(`http://5.35.98.166:3000/favourite/${useProduct().user}`, { method: 'PATCH', body: { "favourites": editData } }) //пуш id товара в корзину
         },
 
-
         async deleteFromFavourite(value) {
             const getData = await $fetch(`http://5.35.98.166:3000/favourite/${useProduct().user}`, { method: 'GET' }) //получить корзину пользователя
             let editData = getData.favourites
             delete editData[value]
             const { data } = await $fetch(`http://5.35.98.166:3000/favourite/${useProduct().user}`, { method: 'PATCH', body: { "favourites": editData } }) //пуш id товара в корзину
         },
-
-
 
         findFavourite() {  //массив объектов {id: кол-во в корзине}
             setTimeout(() => {
@@ -44,9 +39,6 @@ export const useFavouriteUser = defineStore("favouriteUser", {
                 })
             }, 500);
         },
-
-
     },
-
     persist: true,
 });

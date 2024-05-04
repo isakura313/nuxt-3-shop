@@ -4,37 +4,41 @@ import axios from 'axios'
 import db from '../db.json'
 
 export const useUser = defineStore("userStore", {
-    state: () => ({}),
+    state: () => ({ userInfo: {} }),
     getters: {
+        getUserInfo: (state) => state.userInfo,
     },
     actions: {
-        async addToCart(value) {
+        async getDataCarts() {
             const getData = await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'GET' }) //получить корзину пользователя
-            let editData = getData.carts
+            return getData.carts
+        },
+
+        async addToCart(value) {
+            const editData = await this.getDataCarts()
+
+            console.log(editData)
             editData[value.id] = 1
-            const { data } = await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
+            await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
         },
 
         async deleteFromCart(value) {
-            const getData = await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'GET' }) //получить корзину пользователя
-            let editData = getData.carts
+            const editData = await this.getDataCarts()
             delete editData[value]
-            const { data } = await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
+            await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
         },
 
         async plusCart(value) {
-            const getData = await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'GET' }) //получить корзину пользователя
-            let editData = getData.carts
+            const editData = await this.getDataCarts()
             editData[value] = editData[value] + 1
-            const { data } = await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
+            await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
         },
 
         async minusCart(value) {
-            const getData = await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'GET' }) //получить корзину пользователя
-            let editData = getData.carts
+            const editData = await this.getDataCarts()
             if (editData[value] > 1) {
                 editData[value] = editData[value] - 1
-                const { data } = await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
+                await $fetch(`http://5.35.98.166:3000/cart/${useProduct().user}`, { method: 'PATCH', body: { "carts": editData } }) //пуш id товара в корзину
             }
         },
 
@@ -45,7 +49,7 @@ export const useUser = defineStore("userStore", {
                     let keys = Object.keys(res.data.carts) //ключи из объектов в один массив
                     let keysNum = keys.map((item) => Number(item)) //строки в массиве в числа
                     let values = Object.values(res.data.carts) //значения из объектов в один массив
-                    for (let i = 1; i < 23; i++) {
+                    for (let i = 1; i <= db.products.length; i++) { //TODO переписать на forEach и find
                         if (keysNum.indexOf(i) >= 0) {
                             useProduct().simile[i] = values[keysNum.indexOf(i)]
                         }
@@ -56,7 +60,6 @@ export const useUser = defineStore("userStore", {
                 })
             }, 500);
         },
-
 
         editQuantity() {
             setTimeout(() => {
@@ -71,7 +74,6 @@ export const useUser = defineStore("userStore", {
                 })
             }, 500);
         }
-
     },
     persist: true,
 });

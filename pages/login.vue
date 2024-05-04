@@ -42,9 +42,6 @@
                 <img class="w-24 h-24 mb-3 rounded-full shadow-lg" src="/public/user.png" />
                 <h5 class="mb-1 text-xl font-medium text-gray-900">{{ productStore.name }}</h5>
 
-
-
-
                 <div class="flex flex-col items-center" v-if="tfPassword == false">
                     <span class="text-sm text-gray-500">ID аккаунта: {{ productStore.user }}</span>
                     <span class="text-sm text-gray-500">Товаров в корзине: {{ productStore.quantity[0] }}</span>
@@ -57,12 +54,9 @@
                             пароль</button>
                     </div>
 
-
                     <button @click="deleteAccount()"
                         class="py-2 px-14 mt-2 text-sm font-medium focus:outline-none bg-red-50 rounded-lg border border-red-500 text-red-700 hover:bg-red-150 hover:text-red-900 focus:z-10 focus:ring-4 focus:ring-gray-100">Удалить
                         аккаунт</button>
-
-
                 </div>
 
                 <div v-if="tfPassword == true">
@@ -83,25 +77,9 @@
                     <button @click="editPassword()"
                         class="py-2 px-4 ms-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100">Сменить
                         пароль</button>
-
-
-
-
-
                 </div>
-
-
-
-
-
-                <button @click="synchronizationCart()">test</button>
-
             </div>
         </div>
-
-
-
-
     </div>
 
 </template>
@@ -115,20 +93,25 @@ const favouriteStore = useFavourite();
 const runtimeConfig = useRuntimeConfig()
 const RegOrLogin = ref(1) //выбор вход или регистрация
 
+
+
+
 const regLogin = ref() //введенный логин в регистрации
 const regPass = ref() //введенный пароль в регистрации
 async function registration() {
     const getData = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'GET' })
+    console.log(getData)
     let logins = [] //массив логинов
     for (let i = 0; i < getData.length; i++) {
         logins.push(getData[i].login) //пуш логинов
     }
     if (logins.includes(regLogin.value) == false) { //если такого логина ещё нет допускается регистрация
-        const { data } = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'POST', body: { "id": getData.length + 1, "login": regLogin.value, "pass": regPass.value } })
+        let newId = (getData[getData.length - 1].id) + 1
+        const { data } = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'POST', body: { "id": newId, "login": regLogin.value, "pass": regPass.value } })
         const gettData = await $fetch(`${runtimeConfig.public.apiBase}/users`, { method: 'GET' })
-        productStore.user = gettData.length  //задает id пользователя в аккаунте
-        const { data2 } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: { "id": getData.length + 1, "carts": {} } }) //создает корзину для нового пользователя
-        const { data3 } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: { "id": getData.length + 1, "favourites": {} } }) //создает избанное для нового пользователя
+        productStore.user = newId  //задает id пользователя в аккаунте
+        const { data2 } = await $fetch(`${runtimeConfig.public.apiBase}/cart`, { method: 'POST', body: { "id": newId, "carts": {} } }) //создает корзину для нового пользователя
+        const { data3 } = await $fetch(`${runtimeConfig.public.apiBase}/favourite`, { method: 'POST', body: { "id": newId, "favourites": {} } }) //создает избанное для нового пользователя
         productStore.name = regLogin.value
         synchronizationCart()
 
@@ -139,7 +122,7 @@ async function registration() {
         regPass.value = ''
     }
 }
-
+// getData[getData.length - 1]
 const enterLogin = ref() //введенный логин во входе
 const enterPass = ref() //введенный пароль во входе
 async function enter() {
@@ -182,15 +165,13 @@ async function editPassword() {
     }
 }
 
-
 async function deleteAccount() {
-    const getData = await $fetch(`${runtimeConfig.public.apiBase}/users/${productStore.user}`, { method: 'DELETE' })
+    await $fetch(`${runtimeConfig.public.apiBase}/users/${productStore.user}`, { method: 'DELETE' })
+    await $fetch(`${runtimeConfig.public.apiBase}/cart/${productStore.user}`, { method: 'DELETE' })
+    await $fetch(`${runtimeConfig.public.apiBase}/favourite/${productStore.user}`, { method: 'DELETE' })
     productStore.user = 1
     productStore.editQuantity()
 }
-
-
-
 
 async function synchronizationCart() {
     let localData = productStore.cart
@@ -200,7 +181,7 @@ async function synchronizationCart() {
     let keysLocal = Object.keys(localData) //ключи из объектов в один массив
     let keysUser = Object.keys(editData) //ключи из объектов в один массив
 
-    for (let i = 0; i < keysLocal.length; i++) {
+    for (let i = 0; i < keysLocal.length; i++) { // TODO foreach и find
         let search = keysUser.includes(keysLocal[i])
         if (search == true) {
             console.log("Ничего не делать")
@@ -210,16 +191,10 @@ async function synchronizationCart() {
         }
 
     }
-    const { data } = await $fetch(`http://5.35.98.166:3000/cart/${productStore.user}`, { method: 'PATCH', body: { "carts": editData } })
+    await $fetch(`http://5.35.98.166:3000/cart/${productStore.user}`, { method: 'PATCH', body: { "carts": editData } })
     productStore.cart = {}
     synchronizationFavourite()
 }
-
-
-
-
-
-
 
 async function synchronizationFavourite() {
     let localData = favouriteStore.favourite
@@ -239,31 +214,8 @@ async function synchronizationFavourite() {
         }
 
     }
-
-    const { data } = await $fetch(`http://5.35.98.166:3000/favourite/${productStore.user}`, { method: 'PATCH', body: { "favourites": editData } })
+    await $fetch(`http://5.35.98.166:3000/favourite/${productStore.user}`, { method: 'PATCH', body: { "favourites": editData } })
     favouriteStore.favourite = {}
     productStore.editQuantity()
 }
-
-
-// {
-// "cart": [
-//     {
-//       "id": 1,
-//       "carts": {}
-//     }
-// ],
-//   "favourite": [
-// {
-//       "id": 1,
-//       "favourites": {}
-// }
-// ],
-//   "users": [
-//     {
-//       "id": 1,
-//       "login": "guest",
-//       "pass": "guest"
-//     }
-//   ],
 </script>
