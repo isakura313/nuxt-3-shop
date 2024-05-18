@@ -8,7 +8,8 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "server": "json-server --watch db.json"
+    "server": "json-server --watch db.json",
+    "format": "prettier --write ../nuxt-3-shop"
   },
   "devDependencies": {
     "@element-plus/nuxt": "^1.0.7",
