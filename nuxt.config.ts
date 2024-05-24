@@ -10,20 +10,11 @@ export default defineNuxtConfig({
   // ],
   devServer: { port: 5000 },
   devtools: { enabled: true },
-  modules: ['@pinia/nuxt',
+  modules: [
+    '@pinia/nuxt',
     '@nuxtjs/tailwindcss',
     '@element-plus/nuxt',
     '@pinia/nuxt', // needed
-    '@pinia-plugin-persistedstate/nuxt',],
-
-
-
-
-
-  
-
-
-
-
-})
-
+    '@pinia-plugin-persistedstate/nuxt'
+  ]
+});
